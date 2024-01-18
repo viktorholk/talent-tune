@@ -26,7 +26,9 @@ async function createToken(req: Request, res: Response) {
   });
 
   // Send the token
-  res.send(token);
+  res.send({
+    token: token,
+  });
 }
 
 export default { createToken };

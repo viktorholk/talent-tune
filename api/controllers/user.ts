@@ -32,7 +32,13 @@ async function create(req: Request, res: Response) {
   // Create the token so the user don't have to login after registering
   const token = signToken({ _id: newUser._id, ...user });
 
-  return res.status(201).send(token);
+  // Exclude the password from the response
+  const { password, ...userWithoutPassword } = newUser.toObject();
+
+  return res.status(201).send({
+    ...userWithoutPassword,
+    token,
+  });
 }
 
 export default { create };
