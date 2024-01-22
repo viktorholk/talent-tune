@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PDF Reader</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.8.335/pdf.min.js"></script>
+</head>
+<body>
+    <h1>PDF Reader</h1>
+    
+    <form id="uploadForm">
+        <input type="file" id="pdfFile" accept=".pdf">
+        <button type="submit">Upload</button>
+    </form>
+    
+    <div id="output"></div>
+    
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            var fileInput = document.getElementById('pdfFile');
+            var file = fileInput.files[0];
+            
+            var reader = new FileReader();
+            reader.onload = function(event) {
+                var typedArray = new Uint8Array(event.target.result);
+                
+                pdfjsLib.getDocument(typedArray).promise.then(function(pdf) {
+                    var numPages = pdf.numPages;
+                    var pagePromises = [];
+                    for (var i = 1; i <= numPages; i++) {
+                        var pagePromise = pdf.getPage(i).then(function(page) {
+                            return page.getTextContent().then(function(content) {
+                                return content.items.map(function(item) {
+                                    return item.str;
+                                }).join(' ');
+                            });
+                        });
+                        pagePromises.push(pagePromise);
+                    }
+                    return Promise.all(pagePromises);
+                }).then(function(pagesText) {
+                    document.getElementById('output').textContent = pagesText.join(' ');
+                }).catch(function(error) {
+                    console.error('Error loading PDF:', error);
+                    document.getElementById('output').textContent = 'Error loading PDF';
+                });
+            };
+            
+            reader.readAsArrayBuffer(file);
+        });
+    </script>
+</body>
+</html>
