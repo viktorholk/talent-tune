@@ -1,13 +1,10 @@
 import { Schema, model, Document } from "mongoose";
 import bcrypt from "bcrypt";
 
-interface User {
-  name: string;
-  email: string;
-  password: string;
-}
+import { IUser } from "./types";
 
-interface UserDocument extends User, Document {
+interface UserDocument extends IUser, Document {
+  _id: string;
   checkPassword(password: string): Promise<boolean>;
 }
 

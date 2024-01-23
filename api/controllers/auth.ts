@@ -20,7 +20,7 @@ async function createToken(req: Request, res: Response) {
 
   // Create the token
   const token = signToken({
-    id: existingUser._id,
+    _id: existingUser._id,
     email: existingUser.email,
     name: existingUser.name,
   });
