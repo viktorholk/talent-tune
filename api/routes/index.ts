@@ -6,6 +6,10 @@ import AuthRouter from "./auth";
 
 const router = Router();
 
+router.get("/timestamp", (req: Request, res: Response) => {
+  res.send(`${new Date()}`);
+});
+
 router.use("/user", UserRouter);
 router.use("/auth", AuthRouter);
 
