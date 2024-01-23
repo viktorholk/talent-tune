@@ -18,7 +18,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
   }
 
   // Apply the user to the request so it can be used in the controllers
-  req.user = verified as IUser;
+  //req.user = verified as IUser;
 
   next();
 };
