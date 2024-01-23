@@ -1,4 +1,5 @@
 import { request, Request, Response, NextFunction } from "express";
+import _ from "lodash";
 
 export default function(req: Request, res: Response, next: NextFunction) {
   // Make a copy of the request body
@@ -9,8 +10,8 @@ export default function(req: Request, res: Response, next: NextFunction) {
     body.password = "********";
   }
 
-  console.log(
-    `${new Date().toLocaleString()} ${req.method} ${req.path}\n${JSON.stringify(body)}`
-  );
+  console.log(`${new Date().toLocaleString()} ${req.method} ${req.path}`);
+  // Only output the body if it's not empty
+  if (!_.isEmpty(body)) console.log(JSON.stringify(body));
   next();
 }
