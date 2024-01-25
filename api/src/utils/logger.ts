@@ -34,10 +34,11 @@ export default class Logger {
   ) {
     const id = correlationId.getId() || "server";
 
-    console.log(
-      `[${moment().format("D/M/YYYY HH:mm:ss")}] (${id}) ${levelColor}${LogLevel[level]
-      }\x1b[0m: ${message}`
-    );
-    if (!_.isEmpty(data)) console.log(JSON.stringify(data, null, 4));
+    const prefix = `[${moment().format(
+      "D/M/YYYY HH:mm:ss"
+    )}](${id}) ${levelColor}${LogLevel[level]}\x1b[0m`;
+
+    console.log(prefix, message);
+    if (!_.isEmpty(data)) console.log(prefix,"\x1b[36mDATA\x1b[0m", JSON.stringify(data));
   }
 }

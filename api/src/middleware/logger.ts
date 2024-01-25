@@ -12,13 +12,36 @@ const logRequest = (req: Request, next: NextFunction) => {
     body.password = "********";
   }
 
-  Logger.info(`${req.method} ${req.path}`, body);
+  Logger.info(`${req.method} Request ${req.path}`, body);
 
   next();
 };
 
 export default function(req: Request, res: Response, next: NextFunction) {
   const id = correlator.getId();
+
+  // Setup custom response method
+  // This method will be available in all controllers
+  // to help log the response
+
+  res.sendResponse = function(
+    statusCode: number,
+    data: any,
+    logData: boolean = true
+  ): Response {
+    if (typeof data === "string") {
+      data = {
+        message: data,
+      };
+    }
+
+    if (logData) Logger.info(`${statusCode} Response`, data);
+    else Logger.info(`${statusCode} Response`);
+
+    return this.status(statusCode).json({
+      ...data,
+    });
+  };
 
   // Either use existing id to call next or generate a new one
   if (id) {

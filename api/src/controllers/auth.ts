@@ -11,12 +11,11 @@ async function createToken(req: Request, res: Response) {
   // Make sure the user exists
   const existingUser = await UserModel.findOne({ email: params.email });
 
-  if (!existingUser) return res.status(403).send("Invalid email or password");
-
+  if (!existingUser) return res.sendResponse(403, "Invalid email or password");
   // Check the password
   const validPassword = await existingUser.checkPassword(params.password);
 
-  if (!validPassword) return res.status(403).send("Invalid email or password");
+  if (!validPassword) return res.sendResponse(403, "Invalid email or password");
 
   // Create the token
   const token = signToken({
@@ -26,9 +25,8 @@ async function createToken(req: Request, res: Response) {
   });
 
   // Send the token
-  res.send({
-    token: token,
-  });
+
+  res.sendResponse(200, { token: token });
 }
 
 export default { createToken };

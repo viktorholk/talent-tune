@@ -14,7 +14,7 @@ async function create(req: Request, res: Response) {
   // Make sure the user doesn't already exist
   const existingUser = await UserModel.findOne({ email: params.email });
 
-  if (existingUser) return res.status(403).send("User already exists");
+  if (existingUser) return res.sendResponse(403, "User already exists");
 
   // Hash the password
   const hashedPassword = await bcrypt.hash(params.password, 10);
@@ -35,10 +35,14 @@ async function create(req: Request, res: Response) {
   // Exclude the password from the response
   const { password, ...userWithoutPassword } = newUser.toObject();
 
-  return res.status(201).send({
-    ...userWithoutPassword,
-    token,
-  });
+  return res.sendResponse(
+    201,
+    {
+      ...userWithoutPassword,
+      token,
+    },
+    false
+  );
 }
 
 export default { create };
