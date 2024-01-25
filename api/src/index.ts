@@ -1,15 +1,17 @@
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 // Initialize the environment variables
 dotenv.config();
 
-import express, { Express, Request, Response } from 'express';
-import mongoose from 'mongoose';
-import cors from 'cors';
+import express, { Express, Request, Response } from "express";
+import mongoose from "mongoose";
+import cors from "cors";
 
-import Logger from './middleware/logger';
-import Routes from './routes';
+import LoggerMiddleware from "./middleware/logger";
+import Logger from "./utils/logger";
 
-import UserModel from './models/user';
+import Routes from "./routes";
+
+import UserModel from "./models/user";
 
 async function main() {
   const mong = await mongoose.connect(process.env.MONGO_URL as string);
@@ -20,14 +22,14 @@ async function main() {
   app.use(cors());
   app.use(express.json());
 
-  app.use(Logger);
+  app.use(LoggerMiddleware);
 
-  app.use('/', Routes);
+  app.use("/", Routes);
 
   app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
+    Logger.info(`Server running on port ${port}`);
   });
 }
 
-console.log('Starting server...');
+Logger.info("Starting server...");
 main();

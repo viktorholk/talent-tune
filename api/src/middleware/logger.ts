@@ -1,7 +1,9 @@
 import { request, Request, Response, NextFunction } from "express";
+import correlator from "correlation-id";
 import _ from "lodash";
+import Logger from "../utils/logger";
 
-export default function(req: Request, res: Response, next: NextFunction) {
+const logRequest = (req: Request, next: NextFunction) => {
   // Make a copy of the request body
   // so that we can mask the password
   let body = { ...req.body };
@@ -10,8 +12,22 @@ export default function(req: Request, res: Response, next: NextFunction) {
     body.password = "********";
   }
 
-  console.log(`${new Date().toLocaleString()} ${req.method} ${req.path}`);
-  // Only output the body if it's not empty
-  if (!_.isEmpty(body)) console.log(JSON.stringify(body));
+  Logger.info(`${req.method} ${req.path}`, body);
+
   next();
+};
+
+export default function(req: Request, res: Response, next: NextFunction) {
+  const id = correlator.getId();
+
+  // Either use existing id to call next or generate a new one
+  if (id) {
+    correlator.withId(id, () => {
+      logRequest(req, next);
+    });
+  } else {
+    correlator.withId(() => {
+      logRequest(req, next);
+    });
+  }
 }
