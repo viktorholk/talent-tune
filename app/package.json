@@ -19,10 +19,12 @@
     "@fontsource/roboto": "^5.0.8",
     "@mui/icons-material": "^5.15.6",
     "@mui/material": "^5.15.6",
+    "@mui/styled-engine-sc": "^6.0.0-alpha.13",
     "@reduxjs/toolkit": "^2.1.0",
     "react": "^17.0.0 || ^18.0.0",
     "react-dom": "^17.0.0 || ^18.0.0",
-    "react-redux": "^9.1.0"
+    "react-redux": "^9.1.0",
+    "styled-components": "^6.1.8"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",
