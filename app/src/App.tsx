@@ -1,27 +1,29 @@
 import { useState } from "react";
 import "./App.css";
-
-import Button from "@mui/material/Button"
+import axios from "axios";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
+import OptimizeForm from "./components/optimizeForm";
+import Markdown from "react-markdown";
+import { Box } from "@mui/material";
 
 export default function App() {
-  const [timestamp, setTimestamp] = useState("NULL");
+  const [output, setOutput] = useState("");
 
-  const handleButtonPress = () => {
-    fetch("http://localhost:3001/timestamp")
-      .then((response) => response.text())
-      .then((text) => {
-        setTimestamp(text);
-      });
+  const handlePart = (data: string) => {
+    console.log(data);
+    setOutput((o) => o + data);
   };
 
   return (
     <>
-      <Button onClick={handleButtonPress}>Fetch current time</Button>
-      {timestamp && (
-        <p className="App-intro">
-          <b>{timestamp}</b>
-        </p>
-      )}
+      <OptimizeForm onPart={handlePart} onStart={() => setOutput("")} />
+      <Divider></Divider>
+
+      <Box p={5}>
+        <Markdown>{output}</Markdown>
+      </Box>
     </>
   );
 }
