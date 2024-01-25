@@ -1,6 +1,8 @@
 import { useState } from "react";
 import "./App.css";
 
+import Button from "@mui/material/Button"
+
 export default function App() {
   const [timestamp, setTimestamp] = useState("NULL");
 
@@ -14,7 +16,7 @@ export default function App() {
 
   return (
     <>
-      <button onClick={handleButtonPress}>Fetch current time</button>
+      <Button onClick={handleButtonPress}>Fetch current time</Button>
       {timestamp && (
         <p className="App-intro">
           <b>{timestamp}</b>
