@@ -1,19 +1,13 @@
 import LoadingButton from "@mui/lab/LoadingButton";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import Snackbar from "@mui/material/Snackbar";
-import Alert from "@mui/material/Alert";
 import styles from "./optimizeForm.module.css";
 import { useState } from "react";
-import axios from "axios";
 
 export default function optimizeForm(props: {
   onPart: (data: string) => void;
   onStart: () => void;
 }) {
-  const [snackBarOpen, setSnackbarOpen] = useState(false);
-  const [snackMessage, setSnackMessage] = useState("");
-  const [snackSeverity, setSnackSeverity] = useState<AlertColor>("success");
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     jobDescription: "",
@@ -56,13 +50,6 @@ export default function optimizeForm(props: {
       const decodedChunk = decoder.decode(value, { stream: true });
       props.onPart(decodedChunk);
     }
-  };
-
-  const handleClose = (
-    event: React.SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    setSnackBarOpen(false);
   };
 
   return (

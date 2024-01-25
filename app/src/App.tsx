@@ -1,8 +1,5 @@
 import { useState } from "react";
 import "./App.css";
-import axios from "axios";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import OptimizeForm from "./components/optimizeForm";
 import Markdown from "react-markdown";
@@ -12,7 +9,6 @@ export default function App() {
   const [output, setOutput] = useState("");
 
   const handlePart = (data: string) => {
-    console.log(data);
     setOutput((o) => o + data);
   };
 
