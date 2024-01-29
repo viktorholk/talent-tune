@@ -1,11 +1,15 @@
-import { useState } from "react";
 import "./App.css";
-import Divider from "@mui/material/Divider";
-import OptimizeForm from "./components/optimizeForm";
-import Markdown from "react-markdown";
-import { Box } from "@mui/material";
+import { Container} from "@mui/material";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes
+} from "react-router-dom";
+import  Login  from "./components/Login";
+import Register from "./components/Register";
+import Homepage from "./components/Homepage";
 
-export default function App() {
+/*export default function App() {
   const [output, setOutput] = useState("");
 
   const handlePart = (data: string) => {
@@ -21,5 +25,23 @@ export default function App() {
         <Markdown>{output}</Markdown>
       </Box>
     </>
+  );
+}*/
+
+export default function App() {
+  return (
+    <Router>
+      <Container>
+          <Routes>
+            <Route path="/home" element={<Homepage/>}>
+            </Route>
+            <Route path="/register" element={<Register></Register>}>
+            </Route>
+            <Route path="/" element={<Login/>}>
+            </Route>
+          </Routes>
+      </Container>
+    </Router>
+    
   );
 }
