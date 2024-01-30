@@ -1,6 +1,6 @@
 import OpenAI from "openai";
 
-import Logger from "../utils/logger";
+import Logger from "@/utils/logger";
 
 const prompt = `You are an assistant on the web app Talent Tune.
 You will refer to the user. The user will input their targeted job description and their resume.

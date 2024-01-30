@@ -36,7 +36,7 @@ export default class Logger {
 
     const prefix = `[${moment().format(
       "D/M/YYYY HH:mm:ss"
-    )}](${id}) ${levelColor}${LogLevel[level]}\x1b[0m`;
+    )}] (${id}) ${levelColor}${LogLevel[level]}\x1b[0m`;
 
     console.log(prefix, message);
     if (!_.isEmpty(data)) console.log(prefix,"\x1b[36mDATA\x1b[0m", JSON.stringify(data));

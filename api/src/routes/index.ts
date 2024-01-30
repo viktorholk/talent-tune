@@ -1,12 +1,13 @@
 import { Router, Request, Response } from "express";
-import AuthMiddleware from "../middleware/auth";
+import AuthMiddleware from "@/middlewares/auth";
 
-import UserRouter from "./user";
-import AuthRouter from "./auth";
+import UserRouter from "@/routes/user";
+import AuthRouter from "@/routes/auth";
 
 import correlator from "correlation-id";
-import Logger from "../utils/logger";
-import { getStreamingCompletion } from "../helpers/assistant";
+import Logger from "@/utils/logger";
+
+import { getStreamingCompletion } from "@/helpers/assistant";
 
 const router = Router();
 
@@ -22,16 +23,16 @@ router.post("/optimize", async (req: Request, res: Response) => {
       params.resume,
       params.instructions
     );
-    let starttime = Date.now();
+    let fullMessage = "";
+
     for await (const part of stream) {
-      const chunkTime = (Date.now() - starttime) / 1000;
+      const chunk = part.choices[0]?.delta.content || "";
+      fullMessage += chunk;
 
-      const chunk = part.choices[0]?.delta.content;
-
-      Logger.info(chunk);
-
-      res.write(chunk || "");
+      res.write(chunk);
     }
+
+    Logger.info("Response", fullMessage);
 
     res.end();
   } catch (error) {

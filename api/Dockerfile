@@ -8,9 +8,9 @@ RUN npm ci
 
 COPY . .
 
-RUN npm run build
+run npm test
 
 EXPOSE 3001
 
-CMD ["node", "dist/index.js"]
+CMD ["npm", "run", "start:prod"]
 

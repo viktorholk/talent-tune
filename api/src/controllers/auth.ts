@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { signToken } from "../utils/auth";
-import UserModel from "../models/user";
+import { signToken } from "@/utils/auth";
+import UserModel from "@/models/user";
 
-async function createToken(req: Request, res: Response) {
+export async function createToken(req: Request, res: Response) {
   const params = req.body;
 
   // Validate the right parameters are present
@@ -29,4 +29,3 @@ async function createToken(req: Request, res: Response) {
   res.sendResponse(200, { token: token });
 }
 
-export default { createToken };

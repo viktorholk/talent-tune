@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 
-import { verifyToken } from "../utils/auth";
+import { verifyToken } from "@/utils/auth";
 
-import { IUser } from "../models/types";
+import { IUser } from "@/models/types";
 
 export default async (req: Request, res: Response, next: NextFunction) => {
   const token = req.headers.authorization?.split(" ")[1];

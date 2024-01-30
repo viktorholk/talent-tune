@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 
-import { signToken } from "../utils/auth";
-import UserModel from "../models/user";
+import { signToken } from "@/utils/auth";
+import UserModel from "@/models/user";
 
-async function create(req: Request, res: Response) {
+export async function create(req: Request, res: Response) {
   const params = req.body;
 
   // Validate the right parameters are present
@@ -44,5 +44,3 @@ async function create(req: Request, res: Response) {
     false
   );
 }
-
-export default { create };

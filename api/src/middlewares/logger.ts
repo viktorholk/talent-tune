@@ -1,7 +1,7 @@
 import { request, Request, Response, NextFunction } from "express";
 import correlator from "correlation-id";
 import _ from "lodash";
-import Logger from "../utils/logger";
+import Logger from "@/utils/logger";
 
 const logRequest = (req: Request, next: NextFunction) => {
   // Make a copy of the request body

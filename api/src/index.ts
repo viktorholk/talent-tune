@@ -6,15 +6,13 @@ import express, { Express, Request, Response } from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 
-import LoggerMiddleware from "./middleware/logger";
-import Logger from "./utils/logger";
-
-import Routes from "./routes";
-
-import UserModel from "./models/user";
+import LoggerMiddleware from "@/middlewares/logger";
+import Logger from "@/utils/logger";
+import Routes from "@/routes";
 
 async function main() {
-  const mong = await mongoose.connect(process.env.MONGO_URL as string);
+  Logger.info("Connecting to database...");
+  await mongoose.connect(process.env.MONGO_URL as string);
 
   const app: Express = express();
   const port = 3001;
