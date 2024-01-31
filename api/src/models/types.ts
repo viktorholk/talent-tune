@@ -5,7 +5,7 @@ export interface IUserRequest extends Request {
 
 export interface IUser {
   _id?: string;
-  name: string;
+  name?: string;
   email: string;
   password: string;
 }

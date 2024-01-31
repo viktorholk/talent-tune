@@ -5,7 +5,7 @@ import { verifyToken } from "@/utils/auth";
 import { IUser } from "@/models/types";
 
 export default async (req: Request, res: Response, next: NextFunction) => {
-  const token = req.headers.authorization?.split(" ")[1];
+  const token = req.headers?.authorization?.split(" ")[1];
 
   if (!token) {
     return res.sendResponse(401, "Access Denied", false);
