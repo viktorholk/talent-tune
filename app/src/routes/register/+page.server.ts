@@ -17,7 +17,6 @@ export const actions = {
     formData.forEach((value, key) => {
       json[key] = value;
     });
-    console.log(formData);
     try {
       res = await post('/user/create', json);
       cookies.set('jwt', JSON.stringify({ token: res.token }), { path: '/' });

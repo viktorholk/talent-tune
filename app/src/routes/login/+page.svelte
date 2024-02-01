@@ -9,7 +9,8 @@
 	<input type="password" id="password" name="password" required/>
 	<div class="button-group">
 		<button type="submit">Login</button>
-		<button>forgot password?</button>
+		<button><a href="/register">Register</a></button>
+		<!-- <button>forgot password?</button> -->
 		{#if form?.error}
 			<p>{form.error}</p>
 		{/if}
