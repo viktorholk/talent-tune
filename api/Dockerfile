@@ -8,7 +8,7 @@ RUN npm ci
 
 COPY . .
 
-run npm test
+RUN npm test
 
 EXPOSE 3001
 
