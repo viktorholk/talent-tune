@@ -1,11 +1,11 @@
-version: '3'
+version: "3"
 
 services:
   app:
     build:
       context: ./app
     ports:
-      - "3000:3000"
+      - 3000:3000
     depends_on:
       - api
 
@@ -13,5 +13,38 @@ services:
     build:
       context: ./api
     ports:
-      - "3001:3001"
+      - 3001:3001
+    env_file: ./.env
+    environment:
+      - NODE_ENV=production
+      - DB_HOST=mongodb
+      - DB_USER=$DB_USER
+      - DB_PASSWORD=$DB_PASSWORD
+      - DB_NAME=$DB_DATABASE
+    depends_on:
+      - mongodb
+      - redis
 
+  redis:
+    image: redis:alpine3.19
+    restart: always
+    ports:
+      - 6379:6379
+    command: redis-server
+
+  mongodb:
+    image: mongo:5.0.2
+    env_file: ./.env
+    command:
+      - "--logpath"
+      - "/var/log/mongodb/mongod.log"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=$DB_USER
+      - MONGO_INITDB_ROOT_PASSWORD=$DB_PASSWORD
+    ports:
+      - 27017:27017
+    volumes:
+      - db:/data/db
+
+volumes:
+  db:
