@@ -10,9 +10,11 @@ import LoggerMiddleware from "@/middlewares/logger";
 import Logger from "@/utils/logger";
 import Routes from "@/routes";
 
+import dbConfig from "@/config/db.config";
+
 async function main() {
   Logger.info("Connecting to database...");
-  await mongoose.connect(process.env.MONGO_URL as string);
+  await mongoose.connect(dbConfig.url);
 
   const app: Express = express();
   const port = 3001;
