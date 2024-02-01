@@ -4,7 +4,7 @@ import { redirect } from '@sveltejs/kit';
 import { fail } from '@sveltejs/kit';
 
 export async function load({ cookies }) {
-    //cookies.delete('jwt',  { path: '/' });
+    cookies.delete('jwt',  { path: '/' });
     return { ok: true };
 }
 
