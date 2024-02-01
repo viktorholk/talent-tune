@@ -1,1 +1,1 @@
-export let config = "http://localhost:3001"
+export const config = "http://backend:3001"

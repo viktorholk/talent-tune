@@ -13,5 +13,6 @@ export default async function (url = '/', data = {}, token = '') {
         console.error(res.json());
         throw new Error("Failed to fetch");
     }
+    console.log(res)
     return await res.json();
 }
