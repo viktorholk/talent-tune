@@ -4,6 +4,9 @@ const NODE_ENV = process.env.NODE_ENV;
 
 let config = {
   url: "",
+  socket: {
+    connectTimeout: 10000
+  }
 };
 
 if (NODE_ENV === "production") {
