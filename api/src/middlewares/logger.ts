@@ -26,7 +26,7 @@ export default function(req: Request, res: Response, next: NextFunction) {
 
   res.sendResponse = function(
     statusCode: number,
-    data: any,
+    data?: any,
     logData: boolean = true
   ): Response {
     if (typeof data === "string") {
@@ -38,9 +38,11 @@ export default function(req: Request, res: Response, next: NextFunction) {
     if (logData) Logger.info(`${statusCode} Response`, data);
     else Logger.info(`${statusCode} Response`);
 
-    return this.status(statusCode).json({
-      ...data,
-    });
+    if (data)
+      return this.status(statusCode).json({
+        ...data,
+      });
+    else return this.sendStatus(statusCode);
   };
 
   // Either use existing id to call next or generate a new one

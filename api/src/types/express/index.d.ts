@@ -7,7 +7,7 @@ declare global {
       user?: User;
     }
     export interface Response {
-      sendResponse: (statusCode: number, data: any, logData?: boolean) => Response;
+      sendResponse: (statusCode: number, data?: any, logData?: boolean) => Response;
     }
   }
 }
