@@ -26,6 +26,6 @@ export async function createToken(req: Request, res: Response) {
 
   // Send the token
 
-  res.sendResponse(200, { token: token });
+  res.sendResponse(200, { token: token }, false);
 }
 

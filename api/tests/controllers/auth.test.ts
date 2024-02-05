@@ -39,7 +39,7 @@ describe("Token Controller", () => {
     expect(findOneMock).toHaveBeenCalledWith({ email: req.body.email });
     expect(res.sendResponse).toHaveBeenCalledWith(200, {
       token: "mockedToken",
-    });
+    }, false);
   });
 
   it("should handle missing parameters", async () => {
