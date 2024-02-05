@@ -39,6 +39,7 @@ export default class Logger {
     )}] (${id}) ${levelColor}${LogLevel[level]}\x1b[0m`;
 
     console.log(prefix, message);
-    if (!_.isEmpty(data)) console.log(prefix,"\x1b[36mDATA\x1b[0m", JSON.stringify(data));
+    if (!_.isEmpty(data))
+      console.log(prefix, "\x1b[36mDATA\x1b[0m", JSON.stringify(data));
   }
 }
