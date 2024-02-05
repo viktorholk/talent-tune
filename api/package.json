@@ -24,7 +24,8 @@
     "lodash": "^4.17.21",
     "moment": "^2.30.1",
     "openai": "^4.25.0",
-    "pdfjs-dist": "^4.0.379"
+    "pdfjs-dist": "^4.0.379",
+    "redis": "^4.6.12"
   },
   "devDependencies": {
     "@jest/globals": "^29.7.0",

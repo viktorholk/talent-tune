@@ -7,7 +7,7 @@ services:
     ports:
       - 3000:3000
     depends_on:
-      - backend 
+      - backend
 
   backend:
     build:
@@ -48,3 +48,4 @@ services:
 
 volumes:
   db:
+
