@@ -3,9 +3,8 @@ import dotenv from "dotenv";
 // Initialize the environment variables
 dotenv.config({ path: path.resolve(__dirname, "../../.env") });
 
-import express, { Express, Request, Response } from "express";
+import express, { Express } from "express";
 import mongoose from "mongoose";
-import { createClient } from "redis";
 import cors from "cors";
 
 import RedisStore from "@/utils/redis-store";
