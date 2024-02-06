@@ -4,6 +4,8 @@ import bcrypt from "bcrypt";
 import { signToken } from "@/utils/auth";
 import UserModel from "@/models/user";
 
+import { validateEmail } from "@/utils/validator";
+
 export async function create(req: Request, res: Response) {
   const params = req.body;
 
@@ -15,6 +17,10 @@ export async function create(req: Request, res: Response) {
     !params.confirmPassword
   )
     return res.sendStatus(400);
+
+  // validate the email
+  if (!validateEmail(params.email))
+    return res.sendResponse(400, "Invalid email");
 
   // Validate the password
   if (params.password !== params.confirmPassword)

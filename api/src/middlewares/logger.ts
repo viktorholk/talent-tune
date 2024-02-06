@@ -12,6 +12,10 @@ const logRequest = (req: Request, next: NextFunction) => {
     body.password = "********";
   }
 
+  if (body.confirmPassword) {
+    body.confirmPassword = "********";
+  }
+
   Logger.info(`${req.method} Request ${req.path}`, body);
 
   next();
