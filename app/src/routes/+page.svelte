@@ -65,47 +65,58 @@
 	];
 </script>
 
-<ul>
-	<button on:click={change}>change</button>
+<div class="container mx-auto px-4">
+	<button
+		class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+		on:click={change}>Change</button
+	>
 	{#if job}
-		<h1>company</h1>
+		<h1 class="text-4xl font-bold mb-4">Company</h1>
 		{#each jobs as job}
-			<table>
-				<tr>
-					<th>Current job Listing</th>
-					<th>Job candidates</th>
-				</tr>
-				<tr>
-					<td>{job.title}</td>
-					<td>{jobCandidates[1].name}</td>
-					<td>{jobCandidates[1].skills}</td>
-				</tr>
-			</table>
+			<div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
+				<div class="mb-4">
+					<span class="block text-gray-700 text-sm font-bold mb-2">Current job Listing</span>
+					<p class="text-gray-700 text-base">{job.title}</p>
+				</div>
+				<div class="mb-4">
+					<span class="block text-gray-700 text-sm font-bold mb-2">Job candidates</span>
+					<p class="text-gray-700 text-base">{jobCandidates[1].name}</p>
+					<p class="text-gray-700 text-base">{jobCandidates[1].skills}</p>
+				</div>
+			</div>
 		{/each}
 	{/if}
 	{#if !job}
-		<div style="padding-left: 6rem; padding-bottom: 4rem;">
-			<h1>User</h1>
-			<h2>Optimize your applications</h2>
-			<h3>Your applications</h3>
-			<input type="text" />
-			<h3>The job description</h3>
-			<input type="text" />
-			<button>do</button>
+		<div class="px-24 pb-16">
+			<h1 class="text-4xl font-bold mb-4">User</h1>
+			<h2 class="text-2xl font-bold mb-4">Optimize your applications</h2>
+			<h3 class="text-xl font-bold mb-2">Your applications</h3>
+			<input
+				class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+				type="text"
+			/>
+			<h3 class="text-xl font-bold mb-2">The job description</h3>
+			<input
+				class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+				type="text"
+			/>
+			<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+				>Do</button
+			>
 		</div>
 		<div>
 			{#each jobs as job}
-				<table>
-					<tr>
-						<th>Job Title</th>
-						<th>Job Description</th>
-					</tr>
-					<tr>
-						<td>{job.title}</td>
-						<td>{job.description}</td>
-					</tr>
-				</table>
+				<div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
+					<div class="mb-4">
+						<span class="block text-gray-700 text-sm font-bold mb-2">Job Title</span>
+						<p class="text-gray-700 text-base">{job.title}</p>
+					</div>
+					<div class="mb-4">
+						<span class="block text-gray-700 text-sm font-bold mb-2">Job Description</span>
+						<p class="text-gray-700 text-base">{job.description}</p>
+					</div>
+				</div>
 			{/each}
 		</div>
 	{/if}
-</ul>
+</div>
