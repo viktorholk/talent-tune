@@ -44,8 +44,8 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - db1:/data/db
+      - db:/data/db
 
 volumes:
-  db1:
+  db:
 
