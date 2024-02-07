@@ -7,26 +7,11 @@
   };
 </script>
 
-<main>
-  <h1>{user.name}</h1>
-  <p>Age: {user.age}</p>
-  <p>Email: {user.email}</p>
-  <p>Bio: {user.bio}</p>
+<main class="flex flex-col items-center  py-6 sm:py-12">
+  <div class="p-6 bg-white rounded shadow-md w-full max-w-md">
+    <h1 class="text-2xl font-bold mb-4">{user.name}</h1>
+    <p class="mb-2"><span class="font-bold">Age:</span> {user.age}</p>
+    <p class="mb-2"><span class="font-bold">Email:</span> {user.email}</p>
+    <p class="mb-2"><span class="font-bold">Bio:</span> {user.bio}</p>
+  </div>
 </main>
-
-<style>
-  main {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-
-  h1 {
-    font-size: 24px;
-    margin-bottom: 10px;
-  }
-
-  p {
-    margin-bottom: 5px;
-  }
-</style>
