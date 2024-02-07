@@ -10,21 +10,12 @@ export async function create(req: Request, res: Response) {
   const params = req.body;
 
   // Validate the right parameters are present
-  if (
-    !params.name ||
-    !params.email ||
-    !params.password ||
-    !params.confirmPassword
-  )
+  if (!params.name || !params.email || !params.password)
     return res.sendResponse(400, "Missing required parameters");
 
   // validate the email
   if (!validateEmail(params.email))
     return res.sendResponse(400, "Invalid email");
-
-  // Validate the password
-  if (params.password !== params.confirmPassword)
-    return res.sendResponse(400, "Passwords don't match");
 
   // Make sure the user doesn't already exist
   const existingUser = await UserModel.findOne({ email: params.email });
