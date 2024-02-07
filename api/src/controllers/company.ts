@@ -42,6 +42,15 @@ export async function create(req: Request, res: Response) {
 }
 
 export async function getAll(req: Request, res: Response) {
-  const companies = await CompanyModel.find();
+  const companies = await CompanyModel.aggregate([
+    {
+      $lookup: {
+        from: "joblistings",
+        localField: "_id",
+        foreignField: "company_id",
+        as: "jobListings",
+      },
+    },
+  ]);
   return res.sendResponse(200, { data: companies });
 }

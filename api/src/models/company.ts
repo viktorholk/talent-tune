@@ -1,17 +1,16 @@
-import { Schema, model, Document } from "mongoose";
-import bcrypt from "bcrypt";
+import { Schema, model, Document, ObjectId, Types } from "mongoose";
 
 import { ICompany } from "./types";
 
 export interface ICompanyDocument extends ICompany, Document {
-  _id: string;
+  _id: ObjectId;
   created_at: Date;
   updated_at: Date;
 }
 
 const CompanySchema: Schema<ICompanyDocument> = new Schema(
   {
-    user_id: String,
+    user_id: Types.ObjectId,
     name: String,
     description: String,
     vat: String,

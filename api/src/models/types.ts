@@ -1,5 +1,7 @@
+import { ObjectId } from "mongoose";
+
 export interface IUser {
-  _id?: string;
+  _id?: ObjectId;
   name?: string;
   email: string;
   password?: string;
@@ -7,12 +9,20 @@ export interface IUser {
 }
 
 export interface ICompany {
-  _id?: string;
-  user_id: string;
+  _id?: ObjectId;
+  user_id: ObjectId;
   name: string;
   description?: string;
   vat: string;
   country: string;
   address: string;
   zip: string;
+}
+
+export interface IJobListing {
+  _id?: ObjectId;
+  company_id: ObjectId;
+  title: string;
+  description: string;
+  tags: string[];
 }
