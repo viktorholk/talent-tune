@@ -16,11 +16,6 @@ const UserSchema: Schema<IUserDocument> = new Schema(
     name: String,
     email: String,
     password: String,
-    company: {
-      name: String,
-      description: String,
-      vat: String,
-    },
   },
   {
     timestamps: {
@@ -35,7 +30,7 @@ UserSchema.methods.checkPassword = async function(password: string) {
 };
 
 UserSchema.methods.isCompany = function(): boolean {
-  return this.company?.vat !== undefined;
+  return this.companyId !== undefined;
 };
 
 export default model("User", UserSchema);
