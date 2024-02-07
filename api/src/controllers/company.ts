@@ -18,7 +18,7 @@ export async function create(req: Request, res: Response) {
 
   // construct the company object
   let company = {
-    userId: req.user._id,
+    user_id: req.user._id,
     name: params.name,
     description: params.description,
     vat: params.vat,
@@ -38,5 +38,10 @@ export async function create(req: Request, res: Response) {
   const newCompany = await CompanyModel.create(company);
   newCompany.save();
 
-  return res.sendResponse(201, newCompany);
+  return res.sendResponse(201, newCompany.toObject());
+}
+
+export async function getAll(req: Request, res: Response) {
+  const companies = await CompanyModel.find();
+  return res.sendResponse(200, { data: companies });
 }

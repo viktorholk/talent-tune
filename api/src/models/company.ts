@@ -11,7 +11,7 @@ export interface ICompanyDocument extends ICompany, Document {
 
 const CompanySchema: Schema<ICompanyDocument> = new Schema(
   {
-    userId: String,
+    user_id: String,
     name: String,
     description: String,
     vat: String,

@@ -8,7 +8,7 @@ export interface IUser {
 
 export interface ICompany {
   _id?: string;
-  userId: string;
+  user_id: string;
   name: string;
   description?: string;
   vat: string;
