@@ -18,7 +18,7 @@ export const actions = {
       json[key] = value;
     });
     try {
-      res = await post('/user/create', json);
+      res = await post('/users', json);
       cookies.set('jwt', JSON.stringify({ token: res.token }), { path: '/' });
     } catch (error) {
       return fail(422, {
