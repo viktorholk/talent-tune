@@ -3,11 +3,16 @@ export interface IUser {
   name?: string;
   email: string;
   password?: string;
-  company?: ICompany;
+  companyId?: string;
 }
 
 export interface ICompany {
+  _id?: string;
+  userId: string;
   name: string;
-  description: string;
+  description?: string;
   vat: string;
+  country: string;
+  address: string;
+  zip: string;
 }
