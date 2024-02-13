@@ -29,7 +29,6 @@ export async function createToken(req: Request, res: Response) {
     200,
     {
       isCompany: existingUser.isCompany(),
-      hasProfile: existingUser.hasProfile(),
       ..._.pick(existingUser.toObject(), ["name", "email"]),
       token: token,
     },

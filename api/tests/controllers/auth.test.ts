@@ -37,7 +37,6 @@ describe("Token Controller", () => {
         email: "test@etest.com",
       }),
       isCompany: jest.fn().mockReturnValue(false),
-      hasProfile: jest.fn().mockReturnValue(true),
     });
 
     await createToken(req, res);
@@ -47,7 +46,6 @@ describe("Token Controller", () => {
       200,
       {
         isCompany: false,
-        hasProfile: true,
         name: "test",
         email: "test@etest.com",
         token: "mockedToken",
