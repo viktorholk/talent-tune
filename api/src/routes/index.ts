@@ -1,15 +1,15 @@
 import { Router } from "express";
 
-import UserRouter from "@/routes/user";
-import CompanyRouter from "@/routes/company";
+import SetupRouter from "@/routes/setup";
+import ProfileRouter from "@/routes/profile";
 import JobListingRouter from "@/routes/job-listing";
 import AuthRouter from "@/routes/auth";
 import AssistantRouter from "@/routes/assistant";
 
 const router = Router();
 
-router.use("/users", UserRouter);
-router.use("/companies", CompanyRouter);
+router.use("/setup", SetupRouter);
+router.use("/profile", ProfileRouter);
 router.use("/job-listings", JobListingRouter);
 router.use("/auth", AuthRouter);
 router.use("/assistant", AssistantRouter);

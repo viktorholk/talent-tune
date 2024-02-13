@@ -4,7 +4,7 @@ import { IUser } from "../../models/types";
 declare global {
   namespace Express {
     export interface Request {
-      user?: User;
+      user?: IUser;
     }
     export interface Response {
       sendResponse: (statusCode: number, data?: any, logData?: boolean) => Response;

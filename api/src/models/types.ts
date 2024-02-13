@@ -5,7 +5,20 @@ export interface IUser {
   name?: string;
   email: string;
   password?: string;
-  companyId?: string;
+  companyId?: ObjectId;
+  profileId?: ObjectId;
+}
+
+export interface IProfile {
+  _id?: ObjectId;
+  bio: string;
+  documents?: IDocument[];
+}
+
+export interface IDocument {
+  _id?: ObjectId;
+  title: string;
+  encoded: string;
 }
 
 export interface ICompany {
@@ -15,6 +28,7 @@ export interface ICompany {
   description?: string;
   vat: string;
   country: string;
+  city: string;
   address: string;
   zip: string;
 }

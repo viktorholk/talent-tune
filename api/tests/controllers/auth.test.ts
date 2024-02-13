@@ -17,7 +17,6 @@ describe("Token Controller", () => {
       },
     } as Request;
     res = {
-      sendStatus: jest.fn(),
       sendResponse: jest.fn(),
     } as any;
   });
@@ -32,14 +31,29 @@ describe("Token Controller", () => {
       name: "test",
       email: "test@etest.com",
       checkPassword: jest.fn().mockResolvedValue(true), // Mock checkPassword to always return true
+      toObject: jest.fn().mockReturnValue({
+        _id: "mockUserId",
+        name: "test",
+        email: "test@etest.com",
+      }),
+      isCompany: jest.fn().mockReturnValue(false),
+      hasProfile: jest.fn().mockReturnValue(true),
     });
 
     await createToken(req, res);
 
     expect(findOneMock).toHaveBeenCalledWith({ email: req.body.email });
-    expect(res.sendResponse).toHaveBeenCalledWith(200, {
-      token: "mockedToken",
-    }, false);
+    expect(res.sendResponse).toHaveBeenCalledWith(
+      200,
+      {
+        isCompany: false,
+        hasProfile: true,
+        name: "test",
+        email: "test@etest.com",
+        token: "mockedToken",
+      },
+      false
+    );
   });
 
   it("should handle missing parameters", async () => {
@@ -47,7 +61,7 @@ describe("Token Controller", () => {
 
     await createToken(req, res);
 
-    expect(res.sendStatus).toHaveBeenCalledWith(400);
+    expect(res.sendResponse).toHaveBeenCalledWith(400);
   });
 
   it("should handle invalid email or password", async () => {

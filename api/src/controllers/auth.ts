@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import _ from "lodash";
 import { signToken } from "@/utils/auth";
 import UserModel from "@/models/user";
 
@@ -6,7 +7,7 @@ export async function createToken(req: Request, res: Response) {
   const params = req.body;
 
   // Validate the right parameters are present
-  if (!params.email || !params.password) return res.sendStatus(400);
+  if (!params.email || !params.password) return res.sendResponse(400);
 
   // Make sure the user exists
   const existingUser = await UserModel.findOne({ email: params.email });
@@ -24,8 +25,14 @@ export async function createToken(req: Request, res: Response) {
     name: existingUser.name,
   });
 
-  // Send the token
-
-  res.sendResponse(200, { token: token }, false);
+  res.sendResponse(
+    200,
+    {
+      isCompany: existingUser.isCompany(),
+      hasProfile: existingUser.hasProfile(),
+      ..._.pick(existingUser.toObject(), ["name", "email"]),
+      token: token,
+    },
+    false
+  );
 }
-

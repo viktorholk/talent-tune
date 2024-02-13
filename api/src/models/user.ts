@@ -7,6 +7,7 @@ export interface IUserDocument extends IUser, Document {
   _id: ObjectId;
   checkPassword(password: string): Promise<boolean>;
   isCompany(): boolean;
+  hasProfile(): boolean;
   created_at: Date;
   updated_at: Date;
 }
@@ -16,7 +17,14 @@ const UserSchema: Schema<IUserDocument> = new Schema(
     name: String,
     email: String,
     password: String,
-    companyId: Types.ObjectId,
+    companyId: {
+      type: Types.ObjectId,
+      ref: "company",
+    },
+    profileId: {
+      type: Types.ObjectId,
+      ref: "profile",
+    },
   },
   {
     timestamps: {
@@ -32,6 +40,10 @@ UserSchema.methods.checkPassword = async function(password: string) {
 
 UserSchema.methods.isCompany = function(): boolean {
   return this.companyId !== undefined;
+};
+
+UserSchema.methods.hasProfile = function(): boolean {
+  return this.profileId !== undefined;
 };
 
 export default model("User", UserSchema);

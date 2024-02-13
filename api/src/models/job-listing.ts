@@ -1,4 +1,4 @@
-import { Schema, model, Document, ObjectId, Types} from "mongoose";
+import { Schema, model, Document, ObjectId, Types } from "mongoose";
 
 import { IJobListing } from "./types";
 
@@ -10,7 +10,10 @@ export interface IJobListingDocument extends IJobListing, Document {
 
 const JobListingSchema: Schema<IJobListingDocument> = new Schema(
   {
-    company_id: Types.ObjectId,
+    company_id: {
+      type: Types.ObjectId,
+      ref: "company",
+    },
     title: String,
     description: String,
     tags: [String],

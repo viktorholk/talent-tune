@@ -10,11 +10,11 @@ export interface ICompanyDocument extends ICompany, Document {
 
 const CompanySchema: Schema<ICompanyDocument> = new Schema(
   {
-    user_id: Types.ObjectId,
     name: String,
     description: String,
     vat: String,
     country: String,
+    city: String,
     address: String,
     zip: String,
   },
