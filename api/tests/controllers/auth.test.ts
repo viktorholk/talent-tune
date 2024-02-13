@@ -45,9 +45,6 @@ describe("Token Controller", () => {
     expect(res.sendResponse).toHaveBeenCalledWith(
       200,
       {
-        isCompany: false,
-        name: "test",
-        email: "test@etest.com",
         token: "mockedToken",
       },
       false
