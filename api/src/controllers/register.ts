@@ -9,7 +9,7 @@ import { createUser } from "@/helpers/user-handler";
 export async function createProfile(req: Request, res: Response) {
   const params = req.body;
 
-  if (!params.name || !params.email || !params.password || !params.bio)
+  if (!params.name || !params.email || !params.password)
     return res.sendResponse(400, "Missing required parameters");
 
   try {
