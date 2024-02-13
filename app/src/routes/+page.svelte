@@ -1,5 +1,7 @@
-<script>
-	let job = true;
+<script  lang="ts">
+	export let data;
+	
+	let job = data.data;
 	let jobs = [
 		{
 			title: 'Software Engineer',

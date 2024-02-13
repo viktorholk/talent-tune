@@ -1,8 +1,12 @@
-<script>
+<script lang="ts">
 	import '../app.css';
 	import { page } from '$app/stores';
-	let job = false;
 	import icon from '../../static/talenttuneicon.svg?raw';
+
+	export let data;
+	let job = true;
+	
+	
 </script>
 
 <head> </head>
