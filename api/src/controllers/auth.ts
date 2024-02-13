@@ -23,14 +23,13 @@ export async function createToken(req: Request, res: Response) {
     _id: existingUser._id,
     email: existingUser.email,
     name: existingUser.name,
+    isCompany: existingUser.isCompany(),
   });
 
   res.sendResponse(
     200,
     {
-      isCompany: existingUser.isCompany(),
-      ..._.pick(existingUser.toObject(), ["name", "email"]),
-      token: token,
+      token,
     },
     false
   );

@@ -19,6 +19,7 @@ export async function createProfile(req: Request, res: Response) {
     //
     // The profile is created after the user is created because the profile
     // depends on the user's id
+
     const newProfile = new ProfileModel({
       bio: params.bio,
     });
@@ -29,16 +30,17 @@ export async function createProfile(req: Request, res: Response) {
     await user.save();
 
     // Create the token so the user don't have to login after registering
-    const token = signToken({ _id: user.toObject()._id, ...user.toObject() });
+
+    const token = signToken({
+      _id: user._id,
+      email: user.email,
+      name: user.name,
+      isCompany: user.isCompany(),
+    });
 
     return res.sendResponse(
       201,
       {
-        user: {
-          name: params.name,
-          email: params.email,
-          profile: newProfile.toObject(),
-        },
         token,
       },
       false
@@ -93,16 +95,16 @@ export async function createCompany(req: Request, res: Response) {
     await user.save();
 
     // Create the token so the user don't have to login after registering
-    const token = signToken({ _id: user.toObject()._id, ...user.toObject() });
+    const token = signToken({
+      _id: user._id,
+      email: user.email,
+      name: user.name,
+      isCompany: user.isCompany(),
+    });
 
     return res.sendResponse(
       201,
       {
-        user: {
-          name: params.name,
-          email: params.email,
-          company: newCompany.toObject(),
-        },
         token,
       },
       false
