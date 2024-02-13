@@ -20,6 +20,7 @@ export const actions = {
     try {
       res = await post('/auth/token', json);
       cookies.set('jwt', JSON.stringify({ token: res.token }), { path: '/' });
+      cookies.set('user', JSON.stringify({ token: res.token }), { path: '/' });
     } catch (error) {
       return fail(422, {
         error: error.message
