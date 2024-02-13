@@ -19,7 +19,6 @@ describe("User Controller", () => {
       },
     } as Request;
     res = {
-      sendStatus: jest.fn(),
       sendResponse: jest.fn(),
     } as any;
   });
@@ -60,6 +59,9 @@ describe("User Controller", () => {
 
     await create(req, res);
 
-    expect(res.sendStatus).toHaveBeenCalledWith(400);
+    expect(res.sendResponse).toHaveBeenCalledWith(
+      400,
+      "Missing required parameters"
+    );
   });
 });
