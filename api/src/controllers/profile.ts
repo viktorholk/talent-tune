@@ -11,13 +11,13 @@ export async function create(req: Request, res: Response) {
 
   if (!user) return res.sendResponse(403, "User not found");
 
-  if (!params.name || !params.bio) {
+  if (!params.name) {
     return res.sendResponse(400, "Missing required parameters");
   }
   // construct the profile object
   let profile = {
     user_id: params.user_id,
-    bio: params.bio,
+    bio: params.bio || "",
   };
   const newProfile = await ProfileModel.create(profile);
   newProfile.save();

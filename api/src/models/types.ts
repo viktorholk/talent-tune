@@ -11,7 +11,7 @@ export interface IUser {
 
 export interface IProfile {
   _id?: ObjectId;
-  bio: string;
+  bio?: string;
   documents?: IDocument[];
 }
 
