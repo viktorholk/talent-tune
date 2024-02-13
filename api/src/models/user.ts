@@ -16,13 +16,13 @@ const UserSchema: Schema<IUserDocument> = new Schema(
     name: String,
     email: String,
     password: String,
-    companyId: {
+    company: {
       type: Types.ObjectId,
-      ref: "company",
+      ref: "Company",
     },
-    profileId: {
+    profile: {
       type: Types.ObjectId,
-      ref: "profile",
+      ref: "Profile",
     },
   },
   {

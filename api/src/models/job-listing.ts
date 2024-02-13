@@ -10,9 +10,9 @@ export interface IJobListingDocument extends IJobListing, Document {
 
 const JobListingSchema: Schema<IJobListingDocument> = new Schema(
   {
-    company_id: {
+    company: {
       type: Types.ObjectId,
-      ref: "company",
+      ref: "Company",
     },
     title: String,
     description: String,

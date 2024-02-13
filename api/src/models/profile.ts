@@ -14,7 +14,7 @@ const ProfileSchema: Schema<IProfileDocument> = new Schema(
     documents: [
       {
         type: Types.ObjectId,
-        ref: "document",
+        ref: "Document",
       },
     ],
   },

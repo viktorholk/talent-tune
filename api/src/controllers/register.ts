@@ -26,7 +26,7 @@ export async function createProfile(req: Request, res: Response) {
     await newProfile.save();
 
     // Associate the profile with the user
-    user.profileId = newProfile._id;
+    user.profile = newProfile;
     await user.save();
 
     // Create the token so the user don't have to login after registering
@@ -90,7 +90,7 @@ export async function createCompany(req: Request, res: Response) {
     await newCompany.save();
 
     // Associate the profile with the user
-    user.companyId = newCompany._id;
+    user.company = newCompany;
 
     await user.save();
 

@@ -14,9 +14,11 @@ import Logger from "@/utils/logger";
 import Routes from "@/routes";
 
 import dbConfig from "@/config/db.config";
+mongoose.set("debug", true);
 
 async function main() {
   Logger.info("Connecting to MongoDB...");
+
   await mongoose.connect(dbConfig.url);
 
   // Setup redis

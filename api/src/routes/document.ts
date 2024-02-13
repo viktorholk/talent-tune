@@ -1,10 +1,12 @@
 import { Router, Request, Response } from "express";
 
-import { getAll } from "@/controllers/company";
+import { create, remove } from "@/controllers/document";
+
 import AuthMiddleware from "@/middlewares/auth";
 
 const router = Router();
 
-router.get("/", AuthMiddleware, getAll);
+router.post("/", AuthMiddleware, create);
+router.delete("/", AuthMiddleware, remove);
 
 export default router;

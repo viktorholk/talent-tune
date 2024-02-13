@@ -10,6 +10,10 @@ export interface IDocumentDocument extends IDocument, Document {
 
 const DocumentSchema: Schema<IDocumentDocument> = new Schema(
   {
+    profile: {
+      type: Types.ObjectId,
+      ref: "Profile",
+    },
     title: String,
     encoded: String,
   },

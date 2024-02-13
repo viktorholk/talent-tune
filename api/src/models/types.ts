@@ -5,8 +5,8 @@ export interface IUser {
   name?: string;
   email: string;
   password?: string;
-  companyId?: ObjectId;
-  profileId?: ObjectId;
+  company?: ICompany;
+  profile?: IProfile;
 }
 
 export interface IProfile {
@@ -17,13 +17,14 @@ export interface IProfile {
 
 export interface IDocument {
   _id?: ObjectId;
+  profile: IProfile;
   title: string;
   encoded: string;
 }
 
 export interface ICompany {
   _id?: ObjectId;
-  user_id: ObjectId;
+  user: ObjectId;
   name: string;
   description?: string;
   vat: string;
@@ -35,7 +36,7 @@ export interface ICompany {
 
 export interface IJobListing {
   _id?: ObjectId;
-  company_id: ObjectId;
+  company: ObjectId;
   title: string;
   description: string;
   tags: string[];
