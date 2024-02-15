@@ -18,6 +18,8 @@ export async function get(req: Request, res: Response) {
 
     return res.sendResponse(200, company.toObject());
   } else {
+    // ProfileModel.findById(user.profile).populate("documents")
+    // arent working :(
     const profile = await ProfileModel.aggregate([
       {
         $lookup: {
@@ -34,6 +36,30 @@ export async function get(req: Request, res: Response) {
 
     if (!profile) return res.sendResponse(404, "Profile not found");
 
-    return res.sendResponse(200, profile);
+    return res.sendResponse(200, profile[0]);
   }
+}
+
+export async function update(req: Request, res: Response) {
+  const params = req.body;
+
+  const user = await UserModel.findById(req.user?._id);
+
+  if (!user) return res.sendResponse(403, "User not found");
+
+  if (user.isCompany()) {
+    const updatedCompany = await CompanyModel.findByIdAndUpdate(
+      user.company,
+      params,
+      { new: true }
+    );
+    return res.sendResponse(200, updatedCompany?.toObject());
+  }
+
+  const updatedProfile = await ProfileModel.findByIdAndUpdate(
+    user.profile,
+    params,
+    { new: true }
+  );
+  return res.sendResponse(200, updatedProfile?.toObject());
 }
