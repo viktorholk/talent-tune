@@ -1,7 +1,6 @@
 import { Router } from "express";
 
 import RegisterRouter from "@/routes/register";
-import DocumentRouter from "@/routes/document";
 import ProfileRouter from "@/routes/profile";
 import CompanyRouter from "@/routes/company";
 import JobListingRouter from "@/routes/job-listing";
@@ -13,7 +12,6 @@ const router = Router();
 router.use("/register", RegisterRouter);
 router.use("/companies", CompanyRouter);
 router.use("/profile", ProfileRouter);
-router.use("/documents", ProfileRouter);
 router.use("/job-listings", JobListingRouter);
 router.use("/auth", AuthRouter);
 router.use("/assistant", AssistantRouter);
