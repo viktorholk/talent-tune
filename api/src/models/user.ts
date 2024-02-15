@@ -38,7 +38,7 @@ UserSchema.methods.checkPassword = async function(password: string) {
 };
 
 UserSchema.methods.isCompany = function(): boolean {
-  return this.companyId !== undefined;
+  return this.company !== undefined;
 };
 
 export default model("User", UserSchema);
