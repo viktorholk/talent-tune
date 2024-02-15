@@ -4,8 +4,8 @@
 	import icon from '../../static/talenttuneicon.svg?raw';
 
 	export let data;
-	let job = true;
-	
+
+	let job = data.data;
 	
 </script>
 

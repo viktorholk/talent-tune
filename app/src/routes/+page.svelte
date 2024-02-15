@@ -68,10 +68,6 @@
 </script>
 
 <div class="container mx-auto px-4">
-	<button
-		class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-		on:click={change}>Change</button
-	>
 	{#if job}
 		<h1 class="text-4xl font-bold mb-4">Company</h1>
 		{#each jobs as job}
