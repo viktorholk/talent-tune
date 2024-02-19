@@ -1,26 +1,19 @@
 import OpenAI from "openai";
 
-import RedisStore from "@/utils/redis-store";
-
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-export async function createCompletion(
+export async function createStreamingCompletion(
   id: string,
-  input: string,
-  messages: OpenAI.Chat.Completions.ChatCompletionMessageParam[]
-): Promise<string> {
-  messages.push({ role: "user", content: input });
+  messages: OpenAI.Chat.Completions.ChatCompletionMessageParam[],
+  input?: string
+): Promise<any> {
+  if (input) messages.push({ role: "user", content: input });
 
-  const completion = await openai.chat.completions.create({
+  const stream = await openai.chat.completions.create({
     model: "gpt-3.5-turbo",
     messages: messages,
+    stream: true,
   });
 
-  const response = completion.choices[0].message.content as string;
-
-  messages.push({ role: "system", content: response });
-
-  await RedisStore.client.set(`conversation:${id}`, JSON.stringify(messages));
-
-  return completion.choices[0].message.content as string;
+  return stream;
 }
