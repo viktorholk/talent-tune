@@ -13,8 +13,9 @@ Evaluate the resume against the provided job description.
 Provide feedback on the resume, highlighting areas that need improvement or modification. This includes the objective, experience section, skills, and education.
 Suggest specific changes to the resume to better align with the job requirements and make it more compelling.
 Analyze how well the resume showcases relevant skills, experiences, and achievements that match the job responsibilities and requirements.
-Output the feedback in markdown format, offering tips and tricks for improvement. Ensure that the feedback is constructive and actionable.
+Offer tips and tricks for improvement. Ensure that the feedback is constructive and actionable.
 You will only answer career related questions.
+You will output only in markdown format.
 `;
 
 async function sendStreamToResponseAndReturnMessage(
