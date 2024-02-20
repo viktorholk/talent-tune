@@ -1,4 +1,6 @@
 <script  lang="ts">
+import { writable } from 'svelte/store'
+import { browser } from "$app/environment"
 import {
     post
 } from '$lib/actions/fetching';
@@ -12,6 +14,22 @@ let messages = []
 
 
 let streaming = false;
+
+
+  const resumeInputStore = writable(browser && localStorage.getItem('resumeInput') || '');
+  const jobDescriptionInputStore = writable(browser && localStorage.getItem('jobDescriptionInput') || '');
+
+  resumeInputStore.subscribe(value => {
+    if (browser)
+    localStorage.setItem('resumeInput', value);
+  });
+
+  jobDescriptionInputStore.subscribe(value => {
+    if (browser)
+    localStorage.setItem('jobDescriptionInput', value);
+  });
+
+
 
 
 const streamCompletion = async (formData) => {
@@ -122,8 +140,8 @@ const handleProcess = async e => {
    <div class="flex">
       <div class="w-1/3">
          <form class="flex flex-col items-center justify-center" method="POST" enctype="multipart/form-data" on:submit|preventDefault={handleProcess}>
-            <textarea disabled={streaming} name="resume" class="w-full h-32 p-2 mb-4 border border-gray-300 rounded-md" placeholder="Paste your resume here"></textarea>
-            <textarea  disabled={streaming} name="jobDescription" class="w-full h-32 p-2 mb-4 border border-gray-300 rounded-md" placeholder="Paste the job description here"></textarea>
+            <textarea disabled={streaming} name="resume" class="w-full h-32 p-2 mb-4 border border-gray-300 rounded-md" placeholder="Paste your resume here" bind:value={$resumeInputStore}></textarea>
+            <textarea  disabled={streaming} name="jobDescription" class="w-full h-32 p-2 mb-4 border border-gray-300 rounded-md" placeholder="Paste the job description here" bind:value={$jobDescriptionInputStore}></textarea>
             <button  disabled={streaming} type="submit"class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-full">
             Process
             </button>
@@ -139,7 +157,7 @@ const handleProcess = async e => {
             {#each messages as { role, message}}
             {#if role == "assistant"}
             <h3 class="text-indigo-600 font-bold text-2xl">Assistant</h3>
-            <SvelteMarkdown source={message} isInline/>
+            {@html message}
             {:else}
             <div class="flex flex-col text-right">
                <h3 class="text-indigo-600 font-bold text-xl italic">{data.user.name}</h3>
