@@ -83,7 +83,8 @@ export async function initializeChat(req: Request, res: Response) {
     messages.push({ role: "system", content: params.instructions });
 
   // First send the id to the client
-  res.write(id + "\n");
+  res.set("Access-Control-Expose-Headers", "x-assistant-id");
+  res.set("x-assistant-id", id);
 
   const stream = await createStreamingCompletion(id, messages);
 

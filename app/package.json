@@ -38,6 +38,7 @@
 	"type": "module",
 	"dependencies": {
 		"i18n-iso-countries": "^7.10.0",
-		"jwt-decode": "^4.0.0"
+		"jwt-decode": "^4.0.0",
+		"svelte-markdown": "^0.4.1"
 	}
 }

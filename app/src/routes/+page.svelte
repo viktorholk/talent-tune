@@ -1,120 +1,147 @@
 <script  lang="ts">
+
+import { post } from '$lib/actions/fetching';
+import SvelteMarkdown from 'svelte-markdown'
 	export let data;
-	
-	let job = data.data;
-	let jobs = [
-		{
-			title: 'Software Engineer',
-			description:
-				'Responsible for designing, coding, and modifying software applications according to client requirements.'
-		},
-		{
-			title: 'Data Scientist',
-			description:
-				'Responsible for analyzing complex datasets to discover insights and drive data-driven decision making.'
-		},
-		{
-			title: 'Product Manager',
-			description:
-				'Responsible for defining and executing the product roadmap, gathering requirements, and managing the product lifecycle.'
-		},
-		{
-			title: 'UX Designer',
-			description:
-				'Responsible for creating intuitive and user-friendly interfaces for digital products.'
-		},
-		{
-			title: 'Marketing Specialist',
-			description:
-				'Responsible for developing and implementing marketing strategies to promote products or services.'
-		},
-		{
-			title: 'Financial Analyst',
-			description:
-				'Responsible for analyzing financial data, preparing reports, and providing insights to support financial decision making.'
-		},
-		{
-			title: 'Graphic Designer',
-			description:
-				'Responsible for creating visual concepts and designs for various mediums, such as print and digital.'
-		},
-		{
-			title: 'Content Writer',
-			description:
-				'Responsible for creating engaging and informative content for websites, blogs, and other platforms.'
-		},
-		{
-			title: 'Sales Representative',
-			description:
-				'Responsible for selling products or services to customers and maintaining relationships with clients.'
-		},
-		{
-			title: 'Human Resources Manager',
-			description:
-				'Responsible for overseeing HR functions, such as recruitment, employee relations, and performance management.'
-		}
-	];
 
-	async function change() {
-		job = !job;
-	}
+  const user = data.user;
 
-	let jobCandidates = [
-		{ name: 'John Doe', skills: ['JavaScript', 'React', 'Node.js'] },
-		{ name: 'Jane Smith', skills: ['Python', 'Django', 'Machine Learning'] },
-		{ name: 'Bob Johnson', skills: ['Java', 'Spring Boot', 'Microservices'] },
-		{ name: 'Alice Williams', skills: ['C#', '.NET', 'Azure'] }
-	];
-</script>
+  let id = "";
+  let  messages =  []
+
+
+  const handleChat = async e => {
+
+    const formData = new FormData(e.target)
+
+    const message = formData.get('message')
+
+    messages = [...messages, {role: "user", message: message}]
+
+      const response = await post(
+        `/assistant/chat/${id}`,
+        {
+          message
+        },
+        data.token
+      );
+
+  e.target.reset();
+
+      const messagesClone = [...messages]
+
+      let fullMessage = "";
+
+  const reader = response.body.getReader();
+const decoder = new TextDecoder();
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) {
+      break;
+    }
+
+
+      const decodedChunk = decoder.decode(value, { stream: true });
+      fullMessage += decodedChunk;
+      messages = [...messagesClone, {role: "assistant", message: fullMessage}]
+  }
+
+
+
+  }
+
+
+
+  const handleProcess = async e => {
+    const formData = new FormData(e.target)
+user.isCompany
+    try {
+      const response = await post(
+        '/assistant/initialize',
+        {
+          resume: formData.get('resume'),
+          jobDescription: formData.get('jobDescription')
+        },
+        data.token
+      );
+
+      id = response.headers.get("x-assistant-id")
+      const messagesClone = [...messages]
+
+      let fullMessage = "";
+
+  const reader = response.body.getReader();
+const decoder = new TextDecoder();
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) {
+      break;
+    }
+
+
+      const decodedChunk = decoder.decode(value, { stream: true });
+      fullMessage += decodedChunk;
+      messages = [...messagesClone, {role: "assistant", message: fullMessage}]
+  }
+
+  e.target.reset();
+
+
+    } catch (error) { }
+
+
+
+  }
+  
+
+</script> 
 
 <div class="container mx-auto px-4">
-	{#if job}
-		<h1 class="text-4xl font-bold mb-4">Company</h1>
-		{#each jobs as job}
-			<div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
-				<div class="mb-4">
-					<span class="block text-gray-700 text-sm font-bold mb-2">Current job Listing</span>
-					<p class="text-gray-700 text-base">{job.title}</p>
-				</div>
-				<div class="mb-4">
-					<span class="block text-gray-700 text-sm font-bold mb-2">Job candidates</span>
-					<p class="text-gray-700 text-base">{jobCandidates[1].name}</p>
-					<p class="text-gray-700 text-base">{jobCandidates[1].skills}</p>
-				</div>
-			</div>
-		{/each}
-	{/if}
-	{#if !job}
-		<div class="px-24 pb-16">
-			<h1 class="text-4xl font-bold mb-4">User</h1>
-			<h2 class="text-2xl font-bold mb-4">Optimize your applications</h2>
-			<h3 class="text-xl font-bold mb-2">Your applications</h3>
-			<input
-				class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-				type="text"
-			/>
-			<h3 class="text-xl font-bold mb-2">The job description</h3>
-			<input
-				class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-				type="text"
-			/>
-			<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
-				>Do</button
-			>
-		</div>
-		<div>
-			{#each jobs as job}
-				<div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
-					<div class="mb-4">
-						<span class="block text-gray-700 text-sm font-bold mb-2">Job Title</span>
-						<p class="text-gray-700 text-base">{job.title}</p>
-					</div>
-					<div class="mb-4">
-						<span class="block text-gray-700 text-sm font-bold mb-2">Job Description</span>
-						<p class="text-gray-700 text-base">{job.description}</p>
-					</div>
-				</div>
-			{/each}
-		</div>
-	{/if}
+   {#if false}
+   <h1>Deez nuts</h1>
+   {:else}
+   <div class="flex">
+      <div class="w-1/3">
+         <form class="flex flex-col items-center justify-center" method="POST" enctype="multipart/form-data" on:submit|preventDefault={handleProcess}>
+            <textarea name="resume" class="w-full h-32 p-2 mb-4 border border-gray-300 rounded-md" placeholder="Paste your resume here"></textarea>
+            <textarea name="jobDescription" class="w-full h-32 p-2 mb-4 border border-gray-300 rounded-md" placeholder="Paste the job description here"></textarea>
+            <button type="submit"class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-full">
+            Process
+            </button>
+         </form>
+      </div>
+      <div class="flex-1 px-5 gap-4">
+         <div class="flex flex-col gap-4 bg-gray-100 min-h-64 max-h-96 mb-2 overflow-y-scroll p-2">
+
+        {#each messages as { role, message}, i}
+        {#if role == "assistant"}
+         <h3 class="text-indigo-600 font-bold text-2xl">Assistant</h3>
+         <SvelteMarkdown source={message} isInline/>
+         {:else}
+         <div class="flex flex-col text-right">
+
+         <h3 class="text-indigo-600 font-bold text-xl italic">{data.user.name}</h3>
+         <p class="text-sm">{message}</p>
+         </div>
+
+        {/if}
+
+
+
+        {/each}
+
+
+         </div>
+         <form  method="POST" enctype="multipart/form-data" on:submit|preventDefault={handleChat}>
+            <textarea disabled={!id} name="message" class="w-full h-32 p-2 mb-4 border border-gray-300 rounded-md" placeholder="Message"></textarea>
+            <div class="flex justify-end">
+<button disabled={!id} class={`bg-indigo-600 hover:bg-indigo-700 font-bold py-3 px-6 rounded-full ${!id ? 'bg-gray-100 text-black' : 'text-white'}`}>
+            Chat 
+            </button>
+
+            </div>
+                     </form>
+      </div>
+   </div>
+   {/if}
 </div>

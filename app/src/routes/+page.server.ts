@@ -1,19 +1,9 @@
-import { jwtDecode } from "jwt-decode";
 import type { PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ cookies }) => { 
+import { post } from '$lib/actions/fetching';
 
-    let token = cookies.get('jwt');
+export const load: PageServerLoad = async () => { };
 
-    if (token != null) {
-        const decoded: { isCompany: boolean } = jwtDecode(token);
-        return {
-            data: decoded.isCompany
-        }
-    } else {
-        return {
-            data: true
-        }
-    }
- 
-}
+export const actions = {
+
+};
