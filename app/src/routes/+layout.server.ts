@@ -4,8 +4,6 @@ import { jwtDecode } from 'jwt-decode';
 export const load: LayoutServerLoad = async ({ cookies }) => {
   const token = JSON.parse(cookies.get('jwt') || "{}")['token'];
 
-  console.log(cookies.get('jwt'))
-
   if (token) {
     const decoded: { isCompany: boolean } = jwtDecode(token);
     return {

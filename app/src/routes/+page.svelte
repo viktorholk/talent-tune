@@ -111,7 +111,6 @@ const handleProcess = async e => {
     e.target.reset();
 }  
 
-console.log(!id || streaming)
 </script> 
 
 <div class="container mx-auto px-4">
@@ -129,8 +128,13 @@ console.log(!id || streaming)
          </form>
       </div>
       <div class="flex-1 px-5 gap-4">
+
          <div class="flex flex-col flex-col-reverse gap-4 bg-gray-100 min-h-64 max-h-96 mb-2 overflow-y-scroll p-2 rounded-xl">
-            {#each [...messages].reverse() as { role, message}, i}
+      {#if messages.length == 0}
+      <p class="text-center">Please paste your resume and the job description to get started.</p>
+      <h1 class="text-center text-2xl font-bold text-indigo-600">Welcome to Talent Tune</h1>
+      {/if}
+            {#each [...messages].reverse() as { role, message}}
             {#if role == "assistant"}
             <SvelteMarkdown source={message} isInline/>
             <h3 class="text-indigo-600 font-bold text-2xl">Assistant</h3>
