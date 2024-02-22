@@ -31,9 +31,17 @@ export async function create(req: Request, res: Response) {
   };
 
   const newJobListing = await JobListingModel.create(jobListing);
-  newJobListing.save();
 
-  return res.sendResponse(201, newJobListing.toObject());
+  // Yeah we gone do some cowboy tricks here
+  const dto = _.clone(newJobListing.toObject());
+
+  // add the job listing to the company
+  company.jobListings?.push(newJobListing);
+
+  newJobListing.save();
+  company.save();
+
+  return res.sendResponse(201, dto);
 }
 
 export async function update(req: Request, res: Response) {
@@ -73,6 +81,14 @@ export async function remove(req: Request, res: Response) {
   await JobListingModel.findByIdAndDelete(params._id);
 
   return res.sendResponse(200, "Job Listing removed");
+}
+
+export async function get(req: Request, res: Response) {
+  const id = req.params.id;
+
+  const jobListing = await JobListingModel.findById(id).populate("company");
+
+  return res.sendResponse(200, { data: jobListing });
 }
 
 export async function getAll(req: Request, res: Response) {

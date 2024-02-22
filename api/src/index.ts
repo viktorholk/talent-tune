@@ -27,6 +27,7 @@ async function main() {
   // Setup server config and start server
   const app: Express = express();
   const port = 3001;
+  const host = "0.0.0.0";
 
   app.use(cors());
   app.use(express.json());
@@ -35,8 +36,8 @@ async function main() {
 
   app.use("/", Routes);
 
-  app.listen(port, () => {
-    Logger.info(`Server running on port ${port}`);
+  app.listen(port, host, () => {
+    Logger.info(`Server running on port ${host}:${port}`);
   });
 }
 

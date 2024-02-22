@@ -32,7 +32,7 @@
       </div>
       <div class="flex items-center">
       </div>
-      <a href="/login" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-full transition p-2">Logout</a>
+      <a href="/login" class="text-indigo-400 hover:text-indigo-700 font-bold rounded-full transition p-2">Logout</a>
    </nav>
    {/if}
    <main>

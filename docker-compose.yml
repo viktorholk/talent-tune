@@ -2,6 +2,7 @@ version: "3"
 
 services:
   frontend:
+    restart: always
     build:
       context: ./app
     ports:
@@ -10,6 +11,8 @@ services:
       - backend
 
   backend:
+    hostname: backend-api
+    restart: always
     build:
       context: ./api
     ports:
@@ -33,6 +36,7 @@ services:
     command: redis-server
 
   mongodb:
+    restart: always
     image: mongo:5.0.2
     env_file: ./.env
     command:
@@ -48,3 +52,7 @@ services:
 
 volumes:
   db:
+
+networks:
+  default:
+    driver: custom-driver-1

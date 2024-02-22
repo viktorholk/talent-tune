@@ -1,6 +1,6 @@
 import { host } from '$lib/config';
 
-export async function post(url = '/', data = {}, token = '') {
+function createHeaders(token = '') {
   const headers: HeadersInit = {
     'Content-Type': 'application/json',
     'access-control-expose-headers': 'x-assistant-id'
@@ -10,20 +10,48 @@ export async function post(url = '/', data = {}, token = '') {
     headers['Authorization'] = `Bearer ${token}`;
   }
 
-  const res = await fetch(`${host}${url}`, {
-    method: 'POST',
+  return headers;
+}
+
+export async function get(endpoint = '/', token = '') {
+  const url = host + endpoint;
+
+  const response = await fetch(url, {
+    method: 'GET',
     mode: 'cors',
     cache: 'no-cache',
-    headers: headers,
-    body: JSON.stringify(data)
+    headers: createHeaders(token)
   });
-  if (!res.ok) {
-    const data = await res.json();
+  if (!response.ok) {
+    const data = await response.json();
 
     console.error(data);
 
-    throw new Error(data['message'] ? data['message'] : 'Failed to fetch');
+    throw new Error(data['message'] ? data['message'] : 'Failed to Get');
   }
 
-  return res;
+  return response;
+}
+
+export async function post(endpoint = '/', data = {}, token = '') {
+  const url = host + endpoint;
+
+  console.log(url);
+
+  const response = await fetch(url, {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    headers: createHeaders(token),
+    body: JSON.stringify(data)
+  });
+  if (!response.ok) {
+    const data = await response.json();
+
+    console.error(data);
+
+    throw new Error(data['message'] ? data['message'] : 'Failed to Post');
+  }
+
+  return response;
 }

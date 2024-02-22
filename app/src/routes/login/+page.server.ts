@@ -21,6 +21,7 @@ export const actions = {
       const body = await response.json();
       cookies.set('jwt', JSON.stringify({ token: body.token }), { path: '/' });
     } catch (error) {
+      console.error(error);
       return fail(422, {
         error: error.message
       });

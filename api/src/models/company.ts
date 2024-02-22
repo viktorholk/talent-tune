@@ -17,6 +17,12 @@ const CompanySchema: Schema<ICompanyDocument> = new Schema(
     city: String,
     address: String,
     zip: String,
+    jobListings: [
+      {
+        type: Types.ObjectId,
+        ref: "JobListing",
+      },
+    ],
   },
   {
     timestamps: {
@@ -25,5 +31,4 @@ const CompanySchema: Schema<ICompanyDocument> = new Schema(
     },
   }
 );
-
 export default model("Company", CompanySchema);

@@ -32,6 +32,7 @@ export interface ICompany {
   city: string;
   address: string;
   zip: string;
+  jobListings?: [IJobListing];
 }
 
 export interface IJobListing {

@@ -49,23 +49,24 @@ const streamCompletion = async (formData) => {
     if (id) {
 
         payload = {
-            message: formData.get('message')
+            message: formData.get('message'),
+            id: id
         }
-        endpoint = `/assistant/chat/${id}`
+        endpoint = `/api/assistant/chat`
     } else {
         payload = {
             resume: formData.get('resume'),
             jobDescription: formData.get('jobDescription')
         }
 
-        endpoint = "/assistant/initialize/"
+        endpoint = "/api/assistant/initialize"
     }
 
-    const response = await post(
-        endpoint,
-        payload,
-        data.token
-    );
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      body: JSON.stringify({...payload, token: data.token}),
+      })
+
     dispatching = false;
 
     if (!id) {
@@ -136,11 +137,57 @@ const handleProcess = async e => {
     messages = []
 
     await streamCompletion(formData);
-}</script> 
+
+}
+const handleCreateJobListing = async e => {
+    const formData = new FormData(e.target)
+
+
+    const payload ={
+      title: formData.get('title'),
+      description: formData.get('description'),
+      tags: formData.get('tags').split(','),
+      token: data.token
+    }
+
+    const response = await fetch("/api/job-listings/create", {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      })
+
+    if (response.status === 201)
+      e.target.reset();
+
+}
+
+
+</script> 
 
 <div class="container mx-auto px-4">
-    {#if false}
-   <h1>CompanyPage</h1>
+    {#if user.isCompany}
+
+    <h1 class="text-center font-bold text-indigo-600 text-2xl">Create Job Listing</h1>
+
+         <form class="flex flex-col" method="POST" enctype="multipart/form-data" on:submit|preventDefault={handleCreateJobListing}>
+        <label for="title" class="font-bold text-black">Title</label>
+            <input id="title" name="title" class="w-full p-2 mb-4 border border-gray-300 rounded-md" placeholder=""/>
+
+            <label for="description" class="font-bold text-black">Description</label>
+            <textarea   id="description" name="description" class="w-full min-h-64 p-2 mb-4 border border-gray-300 rounded-md" placeholder=""></textarea>
+
+
+        <label for="tags" class="font-bold text-black">Tags (comma seperated)</label>
+            <input id="tags" name="tags" class="w-full p-2 mb-4 border border-gray-300 rounded-md" placeholder="tag1,tag2,tag3"/>
+
+
+
+            <div class="flex justify-center">
+            <button  disabled={streaming} type="submit"class="w-1/2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-full">
+           Create 
+            </button>
+
+            </div>
+                     </form>
    {:else}
 
    <div class="flex">
@@ -210,7 +257,7 @@ const handleProcess = async e => {
             <label for="message" class="font-bold text-black">Message</label>
          <div class="flex">
 
-            <textarea disabled={!id || streaming} name="message" class="w-full h-12 min-h-12 max-h-32 p-2 border border-gray-300 rounded-md" placeholder=". . . "></textarea>
+            <textarea disabled={!id || streaming} name="message" class="w-full h-12 min-h-12 max-h-32 p-2 border border-gray-300 rounded-md" placeholder=""></textarea>
             <div class="flex justify-end">
                <button disabled={!id || streaming} class={`mx-2 px-5 h-12 font-bold rounded ${!id || streaming ? 'bg-gray-100 text-gray-300' : 'text-white bg-indigo-600 hover:bg-indigo-700'}`}>
               Reply 
