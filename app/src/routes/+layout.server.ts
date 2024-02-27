@@ -6,6 +6,7 @@ export const load: LayoutServerLoad = async ({ cookies }) => {
 
 	if (token) {
 		const decoded: { isCompany: boolean } = jwtDecode(token);
+		
 		return {
 			token,
 			user: { ...decoded }

@@ -1,7 +1,6 @@
 <script>
 	export let data;
 
-	console.log(data);
 	import { marked } from 'marked';
 
 	let listing = data.jobListing;

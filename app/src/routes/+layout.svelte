@@ -24,7 +24,7 @@
 						</div>
             </a>
 						<div class="flex gap-4 text-black">
-							<a href="/user/profile">Profile</a>
+							<a href="/user">Profile</a>
 							<a href="/browse">Browse</a>
 						</div>
 					</div>

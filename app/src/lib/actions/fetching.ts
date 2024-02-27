@@ -53,3 +53,24 @@ export async function post(endpoint = '/', data = {}, token = '') {
 
   return response;
 }
+
+export async function remove (endpoint = '/', token = '') {
+  console.log("remove");  
+  const url = host + endpoint;
+
+  const response = await fetch(url, {
+    method: 'DELETE',
+    mode: 'cors',
+    cache: 'no-cache',
+    headers: createHeaders(token)
+  });
+  if (!response.ok) {
+    const data = await response.json();
+
+    console.error(data);
+
+    throw new Error(data['message'] ? data['message'] : 'Failed to Delete');
+  }
+
+  return response;
+}

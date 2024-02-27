@@ -14,7 +14,7 @@ import Logger from "@/utils/logger";
 import Routes from "@/routes";
 
 import dbConfig from "@/config/db.config";
-mongoose.set("debug", true);
+// mongoose.set("debug", true);
 
 async function main() {
   Logger.info("Connecting to MongoDB...");
@@ -30,7 +30,7 @@ async function main() {
   const host = "0.0.0.0";
 
   app.use(cors());
-  app.use(express.json());
+  app.use(express.json({ limit: "100mb" })); // Set max payload size to 200mb
 
   app.use(LoggerMiddleware);
 

@@ -16,8 +16,6 @@ export const actions = {
 			json[key] = value;
 		});
 
-		console.log(json);
-
 		try {
 			const response = await post('/register/profile', json);
 			const body = await response.json();
