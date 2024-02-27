@@ -4,6 +4,7 @@
 	import { marked } from 'marked';
 
 	import { goto } from '$app/navigation';
+  import Card from "$lib/components/Card.svelte";
 
 	let company = data.company;
 
@@ -37,26 +38,14 @@
 		</ul>
 	</div>
 	{#if company.jobListings && company.jobListings.length > 0}
-		<table class="table-auto">
-			<thead>
-				<tr>
-					<th>Title</th>
-					<th>Tags</th>
-					<th>created_at</th>
-				</tr></thead
-			>
-			<tbody>
-				{#each company.jobListings as listing}
-					<tr
-						class="hover:translate-x-1 hover:cursor-pointer transition ease-in-out"
-						on:click={() => navigateToJobListing(listing._id)}
-					>
-						<td>{listing.title}</td>
-						<td>{listing.tags.join(', ')}</td>
-						<td>{listing.created_at}</td>
-					</tr>
-				{/each}
-			</tbody>
-		</table>
+{#each company.jobListings as listing}
+
+        <Card  props={{...{
+          title: listing.title,
+          subtitle: listing.company.name,
+          tags: listing.tags
+        }}}/>
+								{/each}
+
 	{/if}
 </div>

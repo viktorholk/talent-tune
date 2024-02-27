@@ -2,6 +2,8 @@
 	import { writable } from 'svelte/store';
 	import { browser } from '$app/environment';
 	import { post } from '$lib/actions/fetching';
+
+	import { goto } from '$app/navigation';
 	export let data;
 
 	const user = data.user;
@@ -134,12 +136,16 @@
 			token: data.token
 		};
 
-		const response = await fetch('/api/job-listings/create', {
+		const response = await fetch('/api/job-listings', {
 			method: 'POST',
 			body: JSON.stringify(payload)
 		});
 
-		if (response.status === 201) e.target.reset();
+		if (response.status === 201){
+      // Navigate to the newly created job listing
+      const { _id } = await response.json();
+      goto(`/job-listings/${_id}`);
+    };
 	};
 </script>
 

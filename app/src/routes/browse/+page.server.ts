@@ -32,8 +32,9 @@ export const load: PageLoad = async ({ cookies }) => {
 		if (company.jobListings) {
 			for (const jobListing of company.jobListings) {
 				jobListings.push({
-					companyName: company.name,
-					..._.pick(jobListing, ['_id', 'company', 'title', 'description', 'tags'])
+          company: company,
+					..._.pick(jobListing, ['_id', 'title', 'description', 'tags']),
+          active: false
 				});
 			}
 		}

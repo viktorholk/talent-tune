@@ -15,12 +15,14 @@
 			<nav class="flex justify-between items-center p-4">
 				<div class="flex items-center text-white">
 					<div class="flex items-center">
+          <a href="/">
 						<div class="flex items-center text-indigo-600 mr-3">
 							<div class="w-14 h-14">
 								{@html icon}
 							</div>
-							<a href="/" class="text-2xl font-black">Talent Tune</a>
+							<div class="text-2xl font-black">Talent Tune</div>
 						</div>
+            </a>
 						<div class="flex gap-4 text-black">
 							<a href="/user/profile">Profile</a>
 							<a href="/browse">Browse</a>
