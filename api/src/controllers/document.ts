@@ -28,14 +28,14 @@ export async function create(req: Request, res: Response) {
 }
 
 export async function remove(req: Request, res: Response) {
-  const params = req.body;
+  const id = req.params.slug;
   const user = await UserModel.findById(req.user?._id);
 
   if (!user) return res.sendResponse(403, "User not found");
   const profile = await ProfileModel.findById(user.profile);
   if (!profile) return res.sendResponse(403, "Profile not found");
 
-  const document = await DocumentModel.findById(params.id);
+  const document = await DocumentModel.findById(id);
   if (!document) return res.sendResponse(403, "Document not found");
 
   await DocumentModel.findByIdAndDelete(document._id);

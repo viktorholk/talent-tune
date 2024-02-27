@@ -17,6 +17,6 @@ router.get("/", AuthMiddleware, getProfile);
 router.patch("/", AuthMiddleware, updateProfile);
 
 router.post("/documents", AuthMiddleware, createDocument);
-router.delete("/documents", AuthMiddleware, removeDocument);
+router.delete("/documents/:slug", AuthMiddleware, removeDocument);
 
 export default router;

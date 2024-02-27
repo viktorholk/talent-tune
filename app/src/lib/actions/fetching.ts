@@ -55,7 +55,6 @@ export async function post(endpoint = '/', data = {}, token = '') {
 }
 
 export async function remove (endpoint = '/', token = '') {
-  console.log("remove");  
   const url = host + endpoint;
 
   const response = await fetch(url, {

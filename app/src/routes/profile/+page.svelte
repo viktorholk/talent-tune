@@ -23,7 +23,7 @@
 				token: data.token
 			};
 
-			await fetch('/api/user', {
+			await fetch('/api/profile/documents', {
 				method: 'POST',
 				body: JSON.stringify(payload)
 			});
@@ -34,10 +34,16 @@
 	}
 
 	function handleRemoveFile(id) {
-		console.log(id);
+
+    const payload = {
+      id: id,
+      token: data.token
+    }
+
 		return async () => {
-			await fetch(`/api/user/${id}`, {
-				method: 'DELETE'
+			await fetch(`/api/profile/documents`, {
+				method: 'DELETE',
+        body: JSON.stringify(payload)
 			});
 		};
 	}
