@@ -3,6 +3,16 @@ import correlator from "correlation-id";
 import _ from "lodash";
 import Logger from "@/utils/logger";
 
+const truncateBase64Strings = (obj: any) => {
+  _.forEach(obj, (value, key) => {
+    if (_.isString(value) && value.startsWith("data:application/pdf;base64")) {
+      obj[key] = "base64:..."; // Truncate the string
+    } else if (_.isObject(value)) {
+      truncateBase64Strings(value); // Recursively check nested objects
+    }
+  });
+};
+
 const logRequest = (req: Request, next: NextFunction) => {
   // Make a copy of the request body
   // so that we can mask the password
@@ -15,6 +25,10 @@ const logRequest = (req: Request, next: NextFunction) => {
   if (body.confirmPassword) {
     body.confirmPassword = "********";
   }
+
+  // Truncate base64 strings
+  //
+  truncateBase64Strings(body);
 
   Logger.info(`${req.method} Request ${req.path}`, body);
 
@@ -38,6 +52,8 @@ export default function(req: Request, res: Response, next: NextFunction) {
         message: data,
       };
     }
+
+    truncateBase64Strings(data);
 
     if (logData) Logger.info(`${statusCode} Response`, data);
     else Logger.info(`${statusCode} Response`);
