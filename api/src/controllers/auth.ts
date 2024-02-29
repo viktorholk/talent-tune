@@ -10,7 +10,17 @@ export async function createToken(req: Request, res: Response) {
   if (!params.email || !params.password) return res.sendResponse(400);
 
   // Make sure the user exists
-  const existingUser = await UserModel.findOne({ email: params.email });
+  const existingUser = await UserModel.findOne({
+    email: params.email,
+  }).populate([
+    "profile",
+    {
+      path: "company",
+      populate: {
+        path: "jobListings",
+      },
+    },
+  ]);
 
   if (!existingUser) return res.sendResponse(403, "Invalid email or password");
   // Check the password
@@ -23,7 +33,8 @@ export async function createToken(req: Request, res: Response) {
     _id: existingUser._id,
     email: existingUser.email,
     name: existingUser.name,
-    isCompany: existingUser.isCompany(),
+    company: existingUser.company,
+    profile: existingUser.profile,
   });
 
   res.sendResponse(

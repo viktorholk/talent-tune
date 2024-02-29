@@ -6,7 +6,7 @@ export async function get(req: Request, res: Response) {
   const id = req.params.id;
   const company = await CompanyModel.findById(id).populate("jobListings");
 
-  return res.sendResponse(200, { data: company });
+  return res.sendResponse(200, { data: company?.toObject() });
 }
 
 export async function getAll(req: Request, res: Response) {

@@ -1,4 +1,5 @@
 import { host } from '$lib/config';
+import { redirect } from '@sveltejs/kit';
 
 function createHeaders(token = '') {
   const headers: HeadersInit = {
@@ -11,6 +12,12 @@ function createHeaders(token = '') {
   }
 
   return headers;
+}
+
+function handleNavigation(status: number) {
+  if (status === 401) {
+    redirect(307, '/login');
+  }
 }
 
 export async function get(endpoint = '/', token = '') {
@@ -27,6 +34,7 @@ export async function get(endpoint = '/', token = '') {
 
     console.error(data);
 
+    handleNavigation(response.status);
     throw new Error(data['message'] ? data['message'] : 'Failed to Get');
   }
 
@@ -48,13 +56,14 @@ export async function post(endpoint = '/', data = {}, token = '') {
 
     console.error(data);
 
+    handleNavigation(response.status);
     throw new Error(data['message'] ? data['message'] : 'Failed to Post');
   }
 
   return response;
 }
 
-export async function remove (endpoint = '/', token = '') {
+export async function remove(endpoint = '/', token = '') {
   const url = host + endpoint;
 
   const response = await fetch(url, {
@@ -68,7 +77,27 @@ export async function remove (endpoint = '/', token = '') {
 
     console.error(data);
 
+    handleNavigation(response.status);
     throw new Error(data['message'] ? data['message'] : 'Failed to Delete');
+  }
+
+  return response;
+}
+
+export async function patch(endpoint = '/', data = {}, token = '') {
+  const url = host + endpoint;
+
+  const response = await fetch(url, {
+    method: 'PATCH',
+    mode: 'cors',
+    cache: 'no-cache',
+    headers: createHeaders(token),
+    body: JSON.stringify(data)
+  });
+  if (!response.ok) {
+    console.error(data);
+
+    handleNavigation(response.status);
   }
 
   return response;

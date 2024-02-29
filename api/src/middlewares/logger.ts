@@ -53,10 +53,10 @@ export default function(req: Request, res: Response, next: NextFunction) {
       };
     }
 
-    truncateBase64Strings(data);
-
-    if (logData) Logger.info(`${statusCode} Response`, data);
-    else Logger.info(`${statusCode} Response`);
+    if (logData) {
+      truncateBase64Strings(data);
+      Logger.info(`${statusCode} Response`, data);
+    } else Logger.info(`${statusCode} Response`);
 
     if (data)
       return this.status(statusCode).json({

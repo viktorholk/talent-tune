@@ -45,6 +45,7 @@ export async function create(req: Request, res: Response) {
 }
 
 export async function update(req: Request, res: Response) {
+  const id = req.params.id;
   const params = req.body;
 
   const user = await UserModel.findById(req.user?._id);
@@ -57,7 +58,7 @@ export async function update(req: Request, res: Response) {
   if (!company) return res.sendResponse(403, "Company not found");
 
   // Check that the user has right to update the job listing
-  const jobListing = await JobListingModel.findById(params._id);
+  const jobListing = await JobListingModel.findById(id);
 
   if (jobListing?.company.toString() !== company._id.toString()) {
     return res.sendResponse(
@@ -67,7 +68,7 @@ export async function update(req: Request, res: Response) {
   }
 
   const updatedJobListing = await JobListingModel.findByIdAndUpdate(
-    params._id,
+    id,
     _.omit(params, ["_id"]),
     { new: true }
   );
@@ -76,32 +77,34 @@ export async function update(req: Request, res: Response) {
 }
 
 export async function remove(req: Request, res: Response) {
-  const params = req.body;
+  const id = req.params.id;
 
-  await JobListingModel.findByIdAndDelete(params._id);
+  await JobListingModel.findByIdAndDelete(id);
 
   return res.sendResponse(200, "Job Listing removed");
 }
 
-export async function get(req: Request, res: Response) {
+export async function getId(req: Request, res: Response) {
   const id = req.params.id;
 
   const jobListing = await JobListingModel.findById(id).populate("company");
 
-  return res.sendResponse(200, { data: jobListing });
+  return res.sendResponse(200, { data: jobListing?.toObject() });
 }
 
 export async function getAll(req: Request, res: Response) {
-  const jobListings = await JobListingModel.aggregate([
-    {
-      $lookup: {
-        from: "companies",
-        localField: "company",
-        foreignField: "_id",
-        as: "company",
+  let jobListings = [];
+  if (req.query.company_id) {
+    jobListings = await JobListingModel.find({
+      company: {
+        _id: req.query.company_id,
       },
-    },
-  ]);
+    })
+      .populate("company")
+  } else {
+    jobListings = await JobListingModel.find()
+      .populate("company")
+  }
 
-  return res.sendResponse(200, { data: jobListings });
+  return res.sendResponse(200, { data: jobListings.map(i => i.toObject()) });
 }

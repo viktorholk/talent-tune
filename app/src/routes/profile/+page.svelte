@@ -4,6 +4,8 @@
 
 	export let data;
 
+	const user = data.user;
+
 	let selectedFile: File | null = null;
 
 	function handleFileChange(event: Event) {
@@ -30,7 +32,7 @@
 			
 		};
 		reader.readAsDataURL(selectedFile as File);
-		invalidateAll;
+		invalidateAll();
 	}
 
 	function handleRemoveFile(id) {
@@ -48,17 +50,86 @@
 		};
 	}
 
-	const user = data.user;
+  // User settings
+  let editingName = user.name;
+  let editingEmail = user.email;
+  let editingPassword= "";
+
+
+
+
+  let openTab = 0;
+  function toggleTabs(tab) {
+    openTab = tab;
+  }
+
 </script>
 
 <main class="flex flex-col items-center py-6 sm:py-12">
+
 	<div class="p-6 bg-white rounded shadow-md w-full max-w-md">
-		<h1 class="text-2xl font-bold mb-4">{user.name}</h1>
-		<p class="mb-2"><span class="font-bold">Email:</span> {user.email}</p>
-		{#if data.profile.bio != undefined}
-			<p class="mb-0.5"><span class="font-bold">Bio:</span> {data.profile.bio}</p>
-		{/if}
-	</div>
+
+<div class="flex justify-center">
+
+<div class="inline-flex border-5 border-b rounded-xl mb-5">
+<div
+      class="px-4 py-2 cursor-pointer  rounded-l {openTab === 0  ? 'border-5 border-b border-indigo-600 font-semibold' : ''}"
+      on:click={() => toggleTabs(0)}
+    >
+    {user.company ? 'Company' : 'Profile'}
+    </div>
+    <div
+      class="px-4 py-2 cursor-pointer  rounded-r {openTab === 1  ? 'border-5 border-b border-indigo-600 font-semibold' : ''}"
+      on:click={() => toggleTabs(1)}
+    >
+      User
+    </div>
+</div>
+
+</div>
+
+
+{#if openTab === 0}
+
+{#if user.company}
+
+
+{:else}
+
+
+{/if}
+
+
+{:else}
+<div class="flex flex-col gap-2">
+  <div class="flex justify-between items-center">
+  <label class="font-bold w-24">Name</label>
+  <input type="text" class="bg-gray-100 flex-grow h-8 p-2 rounded text-xl" bind:value={editingName}/>
+  </div>
+
+  <div class="flex justify-between  items-center">
+  <label class="font-bold w-24">Email</label>
+  <input type="email" class="bg-gray-100 flex-grow h-8 p-2 rounded text-xl" bind:value={editingEmail}/>
+  </div>
+
+<div class="flex justify-between  items-center">
+  <label class="font-bold w-24">Password</label>
+  <input type="email" class="bg-gray-100 flex-grow h-8 p-2 rounded text-xl" placeholder="**********" bind:value={editingPassword}/>
+  </div>
+
+  <div class="flex justify-end">
+  <button class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-full" >Save</button>
+  </div>
+</div>
+
+{/if}
+
+
+
+
+
+
+  {#if !user.company}
 	<div class="p-6 bg-white rounded shadow-md w-full max-w-md">
 		<h1 class="text-2xl font-bold mb-4">Your Documents</h1>
 		<table class="w-full text-left border-collapse">
@@ -107,4 +178,5 @@
 			</div>
 		</form>
 	</div>
+  {/if}
 </main>
