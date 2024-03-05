@@ -35,11 +35,11 @@
 <h1 class="text-center text-2xl text-indigo-700 font-bold">Browse Job Listings</h1>
 
 <div class="flex gap-2 p-10">
-  <div class="flex flex-col gap-2 max-h-96 overflow-y-scroll p-5 bg-gray-50 rounded w-1/3">
+  <div class="flex flex-col gap-2  overflow-y-scroll p-5 bg-gray-50 rounded" style="max-height: 34rem;">
     {#each jobListings as jobListing}
       <div
         on:click={selectJobListing(jobListing._id)}
-        class="rounded {jobListing.active
+        class="min-w-64 rounded {jobListing.active
           ? ' border border border-indigo-700'
           : ''} flex-grow hover:scale-105 transition ease-in-out"
       >
@@ -73,7 +73,7 @@
     {/each}
   </div>
 
-  <div class="rounded shadow-lg flex-grow p-3 w-1/2">
+  <div class="rounded shadow-lg flex-grow p-3 ">
     <article class="prose">
       {@html marked.parse(selectedJobListing.description || '')}
     </article>
