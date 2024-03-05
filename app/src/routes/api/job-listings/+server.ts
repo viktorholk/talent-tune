@@ -1,6 +1,6 @@
 import type { RequestHandler } from '@sveltejs/kit';
 
-import { get, post, remove, patch} from '$lib/actions/fetching';
+import { get, post, remove, patch } from '$lib/actions/fetching';
 import _ from 'lodash';
 export async function POST({ request }) {
   const body = await request.json();
@@ -26,10 +26,6 @@ export async function DELETE({ request }) {
 
 export async function PATCH({ request }) {
   const body = await request.json();
-  const response = await patch(
-    `/job-listings/${body.id}`,
-    _.omit(body, 'id', 'token'),
-    body.token
-  );
+  const response = await patch(`/job-listings/${body.id}`, _.omit(body, 'id', 'token'), body.token);
   return response;
 }

@@ -8,10 +8,9 @@
 </script>
 
 <div class="container mx-auto px-4">
-	{#if user.company}
-  <CompanyDashboard {data}/>
-	{:else}
-  <Dashboard {data}/>
-
-	{/if}
+  {#if user.company}
+    <CompanyDashboard {data} />
+  {:else}
+    <Dashboard {data} />
+  {/if}
 </div>
