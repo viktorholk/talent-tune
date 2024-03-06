@@ -149,45 +149,45 @@
   };
 </script>
 
-<div class="flex">
-  <div class="w-1/3">
-    <form
-      class="flex flex-col"
-      method="POST"
-      enctype="multipart/form-data"
-      on:submit|preventDefault={handleProcess}
-    >
-      <label for="resume" class="font-bold text-black">Resume</label>
-      <textarea
-        disabled={streaming}
-        id="resume"
-        name="resume"
-        class="w-full min-h-64 p-2 mb-4 border border-gray-300 rounded-md"
-        placeholder="Paste your resume here"
-        bind:value={$resumeInputStore}
-      ></textarea>
-
-      <label for="jobDescription" class="font-bold text-black">Job Description</label>
-      <textarea
-        disabled={streaming}
-        id="jobDescription"
-        name="jobDescription"
-        class="w-full min-h-64 p-2 mb-4 border border-gray-300 rounded-md"
-        placeholder="Paste the job description here"
-        bind:value={$jobDescriptionInputStore}
-      ></textarea>
-      <div class="flex justify-center">
-        <button
+<div class="flex flex-col md:flex-row">
+  <form method="POST" enctype="multipart/form-data" on:submit|preventDefault={handleProcess}>
+    <div class="flex md:flex-col gap-4">
+      <div class="w-1/2 md:w-full">
+        <label for="resume" class="font-bold text-black">Resume</label>
+        <textarea
           disabled={streaming}
-          type="submit"
-          class="w-1/2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-full"
-        >
-          Process
-        </button>
+          id="resume"
+          name="resume"
+          class="w-full min-h-64 p-2 mb-4 border border-gray-300 rounded-md"
+          placeholder="Paste your resume here"
+          bind:value={$resumeInputStore}
+        ></textarea>
       </div>
-    </form>
-  </div>
-  <div class="flex-1 px-5 gap-4">
+
+      <div class="w-1/2 md:w-full">
+        <label for="jobDescription" class="font-bold text-black">Job Description</label>
+        <textarea
+          disabled={streaming}
+          id="jobDescription"
+          name="jobDescription"
+          class="w-full min-h-64 p-2 mb-4 border border-gray-300 rounded-md"
+          placeholder="Paste the job description here"
+          bind:value={$jobDescriptionInputStore}
+        ></textarea>
+      </div>
+    </div>
+
+    <div class="flex justify-center">
+      <button
+        disabled={streaming}
+        type="submit"
+        class="w-1/2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-full"
+      >
+        Process
+      </button>
+    </div>
+  </form>
+  <div class="flex-1 px-5 gap-4 flex-grow">
     <p class="font-bold text-black">Assistant Chat</p>
     <div
       id="assistantChat"

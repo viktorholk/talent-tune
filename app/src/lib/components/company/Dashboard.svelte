@@ -39,7 +39,7 @@
   }
 </script>
 
-<div class="flex gap-2">
+<div class="flex flex-col sm:flex-row gap-4">
   <div class="flex-grow">
     <h1 class="text-center font-bold text-indigo-600 text-2xl">Create Job Listing</h1>
     <form
@@ -85,25 +85,27 @@
     </form>
   </div>
 
-  <div class="w-1/3 px-5">
+  <div class="px-5">
     <h3 class="text-center text-indigo-700">Your Job Listings ({listings.length})</h3>
 
-    {#each listings as jobListing}
-      <div
-        class="rounded flex-grow hover:scale-105 transition ease-in-out mb-5"
-        on:click={() => navigateToJobListing(jobListing._id)}
-      >
-        <Card
-          props={{
-            ...{
-              title: jobListing.title,
-              tags: jobListing.tags
-            }
-          }}
+    <div class="flex sm:flex-col w-full overflow-scroll">
+      {#each listings as jobListing}
+        <div
+          class="min-w-64 rounded flex-grow hover:scale-105 transition ease-in-out mb-5"
+          on:click={() => navigateToJobListing(jobListing._id)}
         >
-          <div class="flex p-1 gap-1"></div>
-        </Card>
-      </div>
-    {/each}
+          <Card
+            props={{
+              ...{
+                title: jobListing.title,
+                tags: jobListing.tags
+              }
+            }}
+          >
+            <div class="flex p-1 gap-1"></div>
+          </Card>
+        </div>
+      {/each}
+    </div>
   </div>
 </div>
