@@ -71,7 +71,7 @@
         id="tags"
         name="tags"
         class="w-full p-2 mb-4 border border-gray-300 rounded-md"
-        placeholder="tag1,tag2,tag3"
+        placeholder="tag1, tag2, tag3"
       />
 
       <div class="flex justify-center">
