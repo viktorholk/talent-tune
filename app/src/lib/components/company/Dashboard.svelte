@@ -88,10 +88,10 @@
   <div class="px-5">
     <h3 class="text-center text-indigo-700">Your Job Listings ({listings.length})</h3>
 
-    <div class="flex sm:flex-col w-full overflow-scroll">
+    <div class="flex sm:flex-col w-full overflow-y-auto p-3">
       {#each listings as jobListing}
         <div
-          class="min-w-64 rounded flex-grow hover:scale-105 transition ease-in-out mb-5"
+          class=" rounded flex-grow hover:scale-105 transition ease-in-out mb-5"
           on:click={() => navigateToJobListing(jobListing._id)}
         >
           <Card

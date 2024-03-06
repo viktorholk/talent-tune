@@ -173,7 +173,7 @@
             <label class="font-bold text-xs px-1">Description</label>
 
             <textarea
-              class="bg-gray-100 flex-grow h-14 max-h-24 p-2 rounded"
+              class="bg-gray-100 flex-grow h-14 min-h-12 max-h-24 p-2 rounded"
               bind:value={editingCompanyDescription}
             />
           </div>
