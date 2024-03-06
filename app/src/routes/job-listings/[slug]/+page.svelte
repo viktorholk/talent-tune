@@ -61,10 +61,8 @@
   <h2 class="text-center text-xl text-indigo-500 font-bold">{listing.title}</h2>
 </Modal>
 
-<div class="flex py-6 gap-2">
-  {#if listing.title}
-    <div class="w-full">
-      <div class="p-6 bg-white rounded shadow-md">
+<div class="flex flex-col">
+      <div class="p-6 bg-white rounded shadow-md border border-gray-200 m-2">
         <div class="flex justify-between">
           {#if editing}
             <input
@@ -165,33 +163,18 @@
             {/each}
           {/if}
         </div>
-      </div>
-    </div>
 
-    <div class="flex flex-col w-1/2 max-h-60 bg-white rounded shadow-md">
-      <div class="p-6 h-full">
-        <h1 class="text-xl font-bold">About the Company</h1>
-        <ul class="list-disc px-6">
-          <li>
-            <strong>Name</strong>: {listing.company.name}
-          </li>
-          <li>
-            <strong>Description</strong>: {listing.company.description}
-          </li>
-          <li>
-            <strong>Country</strong>: {listing.company.country}
-          </li>
-        </ul>
-      </div>
-
-      <div class="flex justify-center">
+      <div class="flex justify-end">
         <a
           href="/companies/{listing.company._id}"
-          class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded mb-2"
+          class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold p-3 rounded mb-2 text-xs"
         >
-          More Infomation
+          About the Company
         </a>
       </div>
-    </div>
-  {/if}
+      </div>
+
+
+
+
 </div>

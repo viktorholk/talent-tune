@@ -33,21 +33,8 @@
         <strong>Zip</strong>: {company.zip}
       </li>
       <li>
-        <strong>Zip</strong>: {company.vat}
+        <strong>Vat</strong>: {company.vat}
       </li>
     </ul>
   </div>
-  {#if company.jobListings && company.jobListings.length > 0}
-    {#each company.jobListings as listing}
-      <Card
-        props={{
-          ...{
-            title: listing.title,
-            subtitle: listing.company.name,
-            tags: listing.tags
-          }
-        }}
-      />
-    {/each}
-  {/if}
 </div>

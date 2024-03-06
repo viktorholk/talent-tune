@@ -322,29 +322,29 @@
     {:else}
       <div class="flex flex-col gap-2">
         <div class="flex justify-between items-center">
-          <label class="font-bold w-24">Email</label>
+          <label class="font-bold w-24 text-xs">Email</label>
           <input
             type="email"
-            class="bg-gray-100 text-gray-300 flex-grow h-8 p-2 rounded text-xl"
+            class="bg-gray-100 text-gray-300 flex-grow h-8 p-2 rounded"
             value={user.email}
             disabled
           />
         </div>
 
         <div class="flex justify-between items-center">
-          <label class="font-bold w-24">Name</label>
+          <label class="font-bold w-24 text-xs">Name</label>
           <input
             type="text"
-            class="bg-gray-100 flex-grow h-8 p-2 rounded text-xl"
+            class="bg-gray-100 flex-grow h-8 p-2 rounded"
             bind:value={editingName}
           />
         </div>
 
         <div class="flex justify-between items-center">
-          <label class="font-bold w-24">Password</label>
+          <label class="font-bold w-24 text-xs">Password</label>
           <input
             type="email"
-            class="bg-gray-100 flex-grow h-8 p-2 rounded text-xl"
+            class="bg-gray-100 flex-grow h-8 p-2 rounded"
             placeholder="**********"
             bind:value={editingPassword}
           />

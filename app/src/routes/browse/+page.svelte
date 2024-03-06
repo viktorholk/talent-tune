@@ -71,7 +71,7 @@
 
 <div class="flex flex-col sm:flex-row gap-2 p-10">
   <div
-    class="flex sm:flex-col gap-2 overflow-y-scroll p-5 bg-gray-50 rounded shadow-inner"
+    class="flex sm:flex-col gap-2 overflow-y-scroll p-3 bg-gray-50 rounded shadow-inner"
     style="max-height: 34rem;"
   >
     <div class="flex items-center rounded border border-gray-300 p-1 hidden sm:flex min-w-64">
@@ -100,7 +100,7 @@
 
     <div class="border border-gray-300 hidden sm:block"></div>
 
-    <div class="flex flex-col gap-2">
+    <div class="flex flex-col gap-2 w-full">
       <div class="flex items-center rounded border border-gray-300 p-1 w-64 sm:hidden">
         <svg
           class="w-3 h-3 text-gray-400 ml-1"
@@ -127,7 +127,9 @@
 
       <div class="border border-gray-300 sm:hidden"></div>
 
-      <div class="flex flex-row sm:flex-col">
+      <div class="w-full shadow-inner overflow-x-scroll">
+
+      <div class="flex flex-row sm:flex-col gap-1 p-3">
         {#each $jobListingsStore as jobListing (jobListing._id)}
           <div
             on:click={selectJobListing(jobListing._id)}
@@ -162,6 +164,9 @@
           </div>
         {/each}
       </div>
+      </div>
+
+
     </div>
   </div>
 
