@@ -15,7 +15,7 @@
 
 <div class="flex flex-col justify-center items-center">
   <div class="bg-white rounded shadow-md p-5">
-    <h1 class="text-xl font-bold">About the Company</h1>
+<h1 class="text-xl font-bold">About the Company</h1>
     <ul class="list-disc px-6">
       <li>
         <strong>Name</strong>: {company.name}

@@ -45,7 +45,7 @@
 
       jobListingsStore.update((listings) =>
         listings.filter((jobListing) =>
-          words.some(
+          words.every(
             (word) =>
               jobListing.title.toLowerCase().includes(word.toLowerCase()) ||
               jobListing.company.name.toLowerCase().includes(word.toLowerCase()) ||

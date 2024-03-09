@@ -67,12 +67,12 @@
           {#if editing}
             <input
               type="text"
-              class="bg-gray-100 rounded p-1 max-w-64 w-full"
+              class="bg-gray-100 rounded p-1 max-w-xl w-full"
               placeholder="Title"
               bind:value={editingTitle}
             />
           {:else}
-            <h1 class="text-2xl font-black text-indigo-600">{listing.title}</h1>
+            <h1 class="text-2xl font-black text-indigo-600 max-w-xl">{listing.title}</h1>
           {/if}
 
           {#if isEditable}
