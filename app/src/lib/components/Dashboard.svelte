@@ -149,10 +149,10 @@
   };
 </script>
 
-<div class="flex flex-col md:flex-row">
+<div class="flex flex-col lg:flex-row">
   <form method="POST" enctype="multipart/form-data" on:submit|preventDefault={handleProcess}>
-    <div class="flex md:flex-col gap-4">
-      <div class="w-1/2 md:w-full">
+    <div class="flex lg:flex-col gap-4">
+      <div class="w-1/2 lg:w-full">
         <label for="resume" class="font-bold text-black">Resume</label>
         <textarea
           disabled={streaming}
@@ -164,7 +164,7 @@
         ></textarea>
       </div>
 
-      <div class="w-1/2 md:w-full">
+      <div class="w-1/2 lg:w-full">
         <label for="jobDescription" class="font-bold text-black">Job Description</label>
         <textarea
           disabled={streaming}

@@ -11,7 +11,11 @@ export interface IUser {
 
 export interface IProfile {
   _id?: ObjectId;
+  firstName: string;
+  lastName: string;
   bio?: string;
+  picture?: string;
+  tags: string[];
   documents?: IDocument[];
 }
 

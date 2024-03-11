@@ -1,4 +1,5 @@
 <script lang="ts">
+  import profileIcon from '$lib/assets/default-profile-picture.jpg';
   import { goto } from '$app/navigation';
 
   export let data;
@@ -19,6 +20,31 @@
 
   let selectedFile: File | null = null;
 
+  async function handleProfilePictureChange(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      let selectedProfilePicture = input.files[0];
+
+      let reader = new FileReader();
+      reader.readAsDataURL(selectedProfilePicture as File);
+
+      reader.onloadend = async function () {
+        let base64data = reader.result;
+        const payload = {
+          picture: base64data,
+          token: data.token
+        };
+
+        await fetch('/api/profile', {
+          method: 'PATCH',
+          body: JSON.stringify(payload)
+        });
+
+        reloadPage('/profile');
+      };
+    }
+  }
+
   async function handleFileChange(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
@@ -29,6 +55,8 @@
 
   async function handleoploadfiles(e: Event) {
     let reader = new FileReader();
+
+    reader.readAsDataURL(selectedFile as File);
     reader.onloadend = async function () {
       let base64data = reader.result;
       const payload = {
@@ -41,9 +69,9 @@
         method: 'POST',
         body: JSON.stringify(payload)
       });
+
+      reloadPage('/profile');
     };
-    reader.readAsDataURL(selectedFile as File);
-    reloadPage('/profile');
   }
 
   function handleRemoveFile(id) {
@@ -68,16 +96,19 @@
   let editingPassword = '';
 
   // Company settings
-  let editingCompanyName = profile.name;
-  let editingCompanyDescription = profile.description;
-  let editingCompanyVat = profile.vat;
-  let editingCompanyCountry = profile.country;
-  let editingCompanyCity = profile.city;
-  let editingCompanyAddress = profile.address;
-  let editingCompanyZip = profile.zip;
+  let editingCompanyName = profile.name || '';
+  let editingCompanyDescription = profile.description || '';
+  let editingCompanyVat = profile.vat || '';
+  let editingCompanyCountry = profile.country || '';
+  let editingCompanyCity = profile.city || '';
+  let editingCompanyAddress = profile.address || '';
+  let editingCompanyZip = profile.zip || '';
 
   // Profile Settings
-  let editingProfileBiography = profile.bio;
+  let editingProfileFirstName = profile.firstName || '';
+  let editingProfileLastName = profile.lastName || '';
+  let editingProfileBio = profile.bio || '';
+  let editingProfileTags = profile.tags?.join(', ') || '';
 
   let openTab = 0;
   function toggleTabs(tab) {
@@ -101,7 +132,10 @@
       } else {
         payload = {
           token: data.token,
-          bio: editingProfileBiography
+          bio: editingProfileBio,
+          firstName: editingProfileFirstName,
+          lastName: editingProfileLastName,
+          tags: editingProfileTags.split(',')
         };
       }
 
@@ -232,14 +266,69 @@
         </div>
       {:else}
         <div class="flex flex-col gap-4">
+          <div class="w-full flex flex-col justify-center items-center">
+            <div class="w-24 h-24 rounded-3xl overflow-hidden">
+              <img class="w-full" src={profile?.picture || profileIcon} />
+            </div>
+
+            <label for="pictureUpload" class="">
+              <div class="flex justify-end">
+                <div class="text-indigo-600 rounded font-bold p-2 m-3 cursor-pointer">
+                  Change
+                  <input
+                    id="pictureUpload"
+                    name="pictureUpload"
+                    type="file"
+                    accept=".png,.jpg,.jpeg"
+                    on:change={handleProfilePictureChange}
+                    class="hidden"
+                  />
+                </div>
+              </div>
+            </label>
+          </div>
+
+          <div class="flex gap-4">
+            <div class="flex flex-col">
+              <label class="font-bold text-xs px-1">First Name</label>
+
+              <input
+                type="text"
+                class="bg-gray-100 flex-grow h-8 p-2 rounded"
+                bind:value={editingProfileFirstName}
+              />
+            </div>
+
+            <div class="flex flex-col">
+              <label class="font-bold text-xs px-1">Last Name</label>
+
+              <input
+                type="text"
+                class="bg-gray-100 flex-grow h-8 p-2 rounded"
+                bind:value={editingProfileLastName}
+              />
+            </div>
+          </div>
+
           <div class="flex flex-col">
             <label class="font-bold text-xs px-1">Biography</label>
 
             <textarea
               class="bg-gray-100 flex-grow h-14 max-h-24 p-2 rounded"
-              bind:value={editingProfileBiography}
+              bind:value={editingProfileBio}
             />
           </div>
+
+          <div class="flex flex-col">
+            <label class="font-bold text-xs px-1">Tags (comma seperated)</label>
+
+            <input
+              type="text"
+              class="bg-gray-100 flex-grow h-8 p-2 rounded"
+              bind:value={editingProfileTags}
+            />
+          </div>
+
           <div class="flex justify-end">
             <button
               class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-full"
@@ -254,11 +343,11 @@
               <tbody>
                 {#each data.profile.documents as document}
                   <tr class="">
-                    <td class="border-b border-grey-light"
-                      ><p class="text-ellipsis overflow-hidden text-nowrap w-72">
-                        {document.title}
-                      </p></td
-                    >
+                    <td class="border-b border-grey-light">
+                      <a href={`/documents/${document._id}`} class="text-blue-500 hover:underline"
+                        >{document.title}</a
+                      >
+                    </td>
                     <td class="border-b border-grey-light">
                       <div class="flex justify-center items-center">
                         <div
@@ -289,19 +378,18 @@
 
             <label for="fileUpload" class="">
               <div class="flex justify-end">
-                <div class="bg-indigo-600 rounded text-white font-bold p-2 m-3">
+                <div class="text-indigo-600 rounded font-bold p-2 mt-2 cursor-pointer">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    class="w-5 mr-2 fill-white inline"
+                    class="w-5 inline"
+                    fill="currentColor"
                     viewBox="0 0 32 32"
                   >
                     <path
                       d="M23.75 11.044a7.99 7.99 0 0 0-15.5-.009A8 8 0 0 0 9 27h3a1 1 0 0 0 0-2H9a6 6 0 0 1-.035-12 1.038 1.038 0 0 0 1.1-.854 5.991 5.991 0 0 1 11.862 0A1.08 1.08 0 0 0 23 13a6 6 0 0 1 0 12h-3a1 1 0 0 0 0 2h3a8 8 0 0 0 .75-15.956z"
-                      data-original="#000000"
                     />
                     <path
                       d="M20.293 19.707a1 1 0 0 0 1.414-1.414l-5-5a1 1 0 0 0-1.414 0l-5 5a1 1 0 0 0 1.414 1.414L15 16.414V29a1 1 0 0 0 2 0V16.414z"
-                      data-original="#000000"
                     />
                   </svg>
                   Upload

@@ -5,7 +5,7 @@ import Logger from "@/utils/logger";
 
 const truncateBase64Strings = (obj: any) => {
   _.forEach(obj, (value, key) => {
-    if (_.isString(value) && value.startsWith("data:application/pdf;base64")) {
+    if (_.isString(value) && value.startsWith("data:")) {
       obj[key] = "base64:..."; // Truncate the string
     } else if (_.isObject(value)) {
       truncateBase64Strings(value); // Recursively check nested objects
@@ -54,8 +54,9 @@ export default function(req: Request, res: Response, next: NextFunction) {
     }
 
     if (logData) {
-      truncateBase64Strings(data);
-      Logger.info(`${statusCode} Response`, data);
+      const cleanedData = truncateBase64Strings(_.cloneDeep(data));
+
+      Logger.info(`${statusCode} Response`, cleanedData);
     } else Logger.info(`${statusCode} Response`);
 
     if (data)

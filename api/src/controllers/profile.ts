@@ -63,3 +63,18 @@ export async function update(req: Request, res: Response) {
   );
   return res.sendResponse(200, updatedProfile?.toObject());
 }
+
+export async function getId(req: Request, res: Response) {
+  const id = req.params.slug;
+
+  const profile = await ProfileModel.findById(id).populate("documents");
+
+  return res.sendResponse(200, { data: profile?.toObject() });
+}
+
+export async function getAll(req: Request, res: Response) {
+  const profiles = await ProfileModel.find().populate("documents");
+  return res.sendResponse(200, {
+    result: profiles.map((profile) => profile.toObject()),
+  });
+}

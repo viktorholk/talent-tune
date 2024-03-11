@@ -28,13 +28,15 @@ export async function createToken(req: Request, res: Response) {
 
   if (!validPassword) return res.sendResponse(403, "Invalid email or password");
 
+  const user = existingUser.toObject();
+
   // Create the token
   const token = signToken({
-    _id: existingUser._id,
-    email: existingUser.email,
-    name: existingUser.name,
-    company: existingUser.company,
-    profile: existingUser.profile,
+    _id: user._id,
+    email: user.email,
+    name: user.name,
+    company: user.company,
+    profile: _.omit(user.profile, ["picture"]),
   });
 
   res.sendResponse(

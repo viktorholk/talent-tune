@@ -24,7 +24,18 @@ export async function create(req: Request, res: Response) {
   });
   await document.save();
 
+  profile.documents?.push(document);
+  profile.save();
+
   return res.sendResponse(201);
+}
+
+export async function getId(req: Request, res: Response) {
+  const id = req.params.slug;
+
+  const document = await DocumentModel.findById(id);
+
+  return res.sendResponse(200, { data: document?.toObject() });
 }
 
 export async function remove(req: Request, res: Response) {

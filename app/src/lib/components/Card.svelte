@@ -12,9 +12,9 @@
   });
 </script>
 
-<div class="min-w-32 max-w-64 overflow-auto rounded shadow-lg p-1 cursor-pointer">
-  <div class="flex items-center">
-    <div class="flex flex-grow flex-col">
+<div class="w-64 min-h-24 max-h-32 rounded shadow-lg p-1 cursor-pointer">
+  <div class="flex items-center w-full">
+    <div class="flex flex-grow flex-col truncate">
       <h2 class="text-md">{title || ''}</h2>
       <h4 class="text-xs text-gray-400">{subtitle || ''}</h4>
     </div>

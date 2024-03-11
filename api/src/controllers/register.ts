@@ -22,6 +22,8 @@ export async function createProfile(req: Request, res: Response) {
 
     const newProfile = new ProfileModel({
       bio: params.bio,
+      firstName: params.firstName,
+      lastName: params.lastName,
     });
     await newProfile.save();
 

@@ -27,6 +27,31 @@
         <input type="hidden" name="remember" value="true" />
 
         <div class="rounded-md shadow-sm -space-y-px flex flex-col gap-2">
+          <div class="flex gap-1">
+            <div class="w-full">
+              <label for="firstName" class="sr-only">First Name</label>
+              <input
+                id="firstName"
+                name="firstName"
+                type="text"
+                required
+                class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                placeholder="First Name"
+              />
+            </div>
+            <div class="w-full">
+              <label for="lastName" class="sr-only">Last Name</label>
+              <input
+                id="lastName"
+                name="lastName"
+                type="text"
+                required
+                class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                placeholder="Last Name"
+              />
+            </div>
+          </div>
+
           <div>
             <label for="email" class="sr-only">Email address</label>
             <input
@@ -39,16 +64,17 @@
             />
           </div>
           <div>
-            <label for="name" class="sr-only">Name</label>
+            <label for="name" class="sr-only">Username</label>
             <input
               id="name"
               name="name"
               type="text"
               required
               class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-              placeholder="Name"
+              placeholder="Username"
             />
           </div>
+
           <div>
             <label for="password" class="sr-only">Password</label>
             <input

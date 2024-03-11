@@ -10,7 +10,11 @@ export interface IProfileDocument extends IProfile, Document {
 
 const ProfileSchema: Schema<IProfileDocument> = new Schema(
   {
+    firstName: String,
+    lastName: String,
+    tags: [String],
     bio: String,
+    picture: String,
     documents: [
       {
         type: Types.ObjectId,
