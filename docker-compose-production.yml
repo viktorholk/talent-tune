@@ -2,6 +2,7 @@ version: "3"
 
 services:
   webserver:
+    container_name: 'webserver'
     image: "nginx:latest"
     restart: unless-stopped
     ports:
@@ -19,8 +20,8 @@ services:
     image: certbot/certbot
     container_name: certbot
     volumes:
-      - ./certbot/conf:/etc/letsencrypt
-      - ./certbot/www:/var/www/certbot
+      - ./certbot/conf:/etc/letsencrypt:rw
+      - ./certbot/www:/var/www/certbot:rw
     depends_on:
       - webserver
     command: certonly --webroot -w /var/www/certbot --force-renewal --register-unsafely-without-email -d talent-tune.holk.solutions --agree-tos -v
