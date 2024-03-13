@@ -11,8 +11,8 @@ services:
   backend:
     hostname: backend-api
     restart: always
-    ports:
-      - 3001:3001
+    build:
+      context: ./api
     env_file: ./.env
     environment:
       - NODE_ENV=production
