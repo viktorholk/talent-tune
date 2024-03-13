@@ -16,7 +16,7 @@ jobs:
       - name: SSH into EC2 and update code
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.EC2_HOST }}
+          host: ${{ secrets.AWS_HOST }}
           username: ${{ secrets.AWS_KEY }}
           key: ${{ secrets.AWS_SECRET }}
           script: |
@@ -27,7 +27,7 @@ jobs:
       - name: SSH into EC2 and rebuild Docker containers
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.EC2_HOST }}
+          host: ${{ secrets.AWS_HOST }}
           username: ${{ secrets.AWS_KEY }}
           key: ${{ secrets.AWS_SECRET }}
           script: |
