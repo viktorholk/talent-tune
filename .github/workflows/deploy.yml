@@ -19,6 +19,6 @@ jobs:
           script: |
             ssh-keyscan github.com >> ~/.ssh/known_hosts
             cd talent-tune
+            git checkout main
             git pull
-            docker-compose build
-            docker-compose up -d
+            docker-compose -f docker-compose-production.yml up --build
