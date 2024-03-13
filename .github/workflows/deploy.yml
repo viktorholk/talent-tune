@@ -15,7 +15,7 @@ jobs:
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC""_KEY }}
+          key: ${{ secrets.EC2_KEY }}
           script: |
             ssh-keyscan github.com >> ~/.ssh/known_hosts
             cd /talent-tune
