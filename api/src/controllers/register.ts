@@ -9,7 +9,6 @@ import { createUser } from "@/helpers/user-handler";
 export async function createProfile(req: Request, res: Response) {
   const params = req.body;
 
-  console.log(params);
   if (!params.firstName || !params.email || !params.password)
     return res.sendResponse(400, "Missing required parameters");
 
@@ -48,7 +47,6 @@ export async function createProfile(req: Request, res: Response) {
       false
     );
   } catch (error) {
-    console.log(error)
     return res.sendResponse(400, error);
   }
 }
