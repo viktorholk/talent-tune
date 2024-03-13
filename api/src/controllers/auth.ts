@@ -12,15 +12,7 @@ export async function createToken(req: Request, res: Response) {
   // Make sure the user exists
   const existingUser = await UserModel.findOne({
     email: params.email,
-  }).populate([
-    "profile",
-    {
-      path: "company",
-      populate: {
-        path: "jobListings",
-      },
-    },
-  ]);
+  }).populate(["profile", "company"]);
 
   if (!existingUser) return res.sendResponse(403, "Invalid email or password");
   // Check the password
