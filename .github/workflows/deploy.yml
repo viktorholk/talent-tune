@@ -21,4 +21,4 @@ jobs:
             cd talent-tune
             git checkout main
             git pull
-            docker-compose -f docker-compose-production.yml up --build
+            docker-compose -f docker-compose-production.yml up --build -d
