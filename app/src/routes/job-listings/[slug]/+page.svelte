@@ -160,13 +160,15 @@
       {/if}
     </div>
 
-    <div class="flex justify-end">
-      <a
-        href="/companies/{listing.company._id}"
-        class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold p-3 rounded mb-2 text-xs"
-      >
-        About the Company
-      </a>
-    </div>
+    {#if !editing}
+      <div class="flex justify-end mt-2">
+        <a
+          href="/companies/{listing.company._id}"
+          class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold p-3 rounded mb-2 text-xs"
+        >
+          About the Company
+        </a>
+      </div>
+    {/if}
   </div>
 </div>

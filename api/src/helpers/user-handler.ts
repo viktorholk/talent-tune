@@ -7,12 +7,11 @@ import { validateEmail } from "@/utils/validator";
 import { IUserDocument } from "@/models/user";
 
 export async function createUser(
-  name: string,
   email: string,
   password: string
 ): Promise<IUserDocument> {
   // Validate the right parameters are present
-  if (!name || !email || !password) throw "Missing required parameters";
+  if (!email || !password) throw "Missing required parameters";
 
   // validate the email
   if (!validateEmail(email)) throw "Invalid email";
@@ -26,7 +25,6 @@ export async function createUser(
   const hashedPassword = await bcrypt.hash(password, 10);
 
   const user = {
-    name: name,
     email: email,
     password: hashedPassword,
   };

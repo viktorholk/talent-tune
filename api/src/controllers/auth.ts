@@ -34,7 +34,6 @@ export async function createToken(req: Request, res: Response) {
   const token = signToken({
     _id: user._id,
     email: user.email,
-    name: user.name,
     company: user.company,
     profile: _.omit(user.profile, ["picture"]),
   });

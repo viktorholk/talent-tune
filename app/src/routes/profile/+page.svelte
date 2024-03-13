@@ -91,7 +91,6 @@
   }
 
   // User settings
-  let editingName = user.name;
   let editingEmail = user.email;
   let editingPassword = '';
 
@@ -146,7 +145,6 @@
     } else if (openTab === 1) {
       const payload = {
         token: data.token,
-        name: editingName,
         password: editingPassword
       };
       await fetch('/api/user', {
@@ -416,15 +414,6 @@
             class="bg-gray-100 text-gray-300 flex-grow h-8 p-2 rounded"
             value={user.email}
             disabled
-          />
-        </div>
-
-        <div class="flex justify-between items-center">
-          <label class="font-bold w-24 text-xs">Name</label>
-          <input
-            type="text"
-            class="bg-gray-100 flex-grow h-8 p-2 rounded"
-            bind:value={editingName}
           />
         </div>
 

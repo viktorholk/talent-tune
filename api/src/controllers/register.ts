@@ -9,11 +9,12 @@ import { createUser } from "@/helpers/user-handler";
 export async function createProfile(req: Request, res: Response) {
   const params = req.body;
 
+  console.log(params);
   if (!params.firstName || !params.email || !params.password)
     return res.sendResponse(400, "Missing required parameters");
 
   try {
-    const user = await createUser(params.name, params.email, params.password);
+    const user = await createUser(params.email, params.password);
 
     // Create the profile
     //
@@ -36,7 +37,6 @@ export async function createProfile(req: Request, res: Response) {
     const token = signToken({
       _id: user._id,
       email: user.email,
-      name: user.name,
       isCompany: user.isCompany(),
     });
 
@@ -48,6 +48,7 @@ export async function createProfile(req: Request, res: Response) {
       false
     );
   } catch (error) {
+    console.log(error)
     return res.sendResponse(400, error);
   }
 }
@@ -56,7 +57,6 @@ export async function createCompany(req: Request, res: Response) {
   const params = req.body;
 
   if (
-    !params.name ||
     !params.email ||
     !params.password ||
     !params.companyName ||
@@ -70,7 +70,7 @@ export async function createCompany(req: Request, res: Response) {
     return res.sendResponse(400, "Missing required parameters");
 
   try {
-    const user = await createUser(params.name, params.email, params.password);
+    const user = await createUser(params.email, params.password);
 
     const newCompany = new CompanyModel({
       name: params.companyName,
@@ -100,7 +100,6 @@ export async function createCompany(req: Request, res: Response) {
     const token = signToken({
       _id: user._id,
       email: user.email,
-      name: user.name,
       isCompany: user.isCompany(),
     });
 

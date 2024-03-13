@@ -11,10 +11,6 @@ export async function update(req: Request, res: Response) {
 
   if (!user) return res.sendResponse(400, "user does not exist");
 
-  if (params.name) {
-    user.name = params.name;
-  }
-
   if (params.password?.length > 0) {
     user.password = await bcrypt.hash(params.password, 10);
   }

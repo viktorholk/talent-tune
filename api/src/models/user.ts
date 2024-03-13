@@ -13,7 +13,6 @@ export interface IUserDocument extends IUser, Document {
 
 const UserSchema: Schema<IUserDocument> = new Schema(
   {
-    name: String,
     email: String,
     password: String,
     company: {
