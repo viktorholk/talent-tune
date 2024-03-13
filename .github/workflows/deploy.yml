@@ -10,27 +10,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: SSH into EC2 and update code
+      - name: Build & Deploy
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.AWS_KEY }}
-          key: ${{ secrets.AWS_SECRET }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC""_KEY }}
           script: |
             ssh-keyscan github.com >> ~/.ssh/known_hosts
             cd /talent-tune
             git pull
-
-      - name: SSH into EC2 and rebuild Docker containers
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.AWS_KEY }}
-          key: ${{ secrets.AWS_SECRET }}
-          script: |
-            cd /talent-tune
             docker-compose build
             docker-compose up -d
