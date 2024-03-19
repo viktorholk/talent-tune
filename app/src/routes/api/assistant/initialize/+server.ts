@@ -9,7 +9,8 @@ export async function POST({ request }) {
     '/assistant/initialize',
     {
       resume: body.resume,
-      jobDescription: body.jobDescription
+      jobDescription: body.jobDescription,
+      instructions: body.instructions
     },
     body.token
   );

@@ -49,7 +49,12 @@
     } else {
       payload = {
         resume: formData.get('resume'),
-        jobDescription: formData.get('jobDescription')
+        jobDescription: formData.get('jobDescription'),
+        instructions: `You will only output in valid HTML format. You dont need <html> and <body> elements.
+        You will use TailwindCSS classes for styling. You dont need to import TailwindCSS.
+        That means for headers e.g you will use font-bold text-xl.
+        Text formatting: You can use HTML tags such as <h1>, <h2>, <p>, and <strong> to format and style text.
+        Tables and lists: You can use the <table> and <ul>/<ol> tags to create tables and lists respectively.`
       };
 
       endpoint = '/api/assistant/initialize';
