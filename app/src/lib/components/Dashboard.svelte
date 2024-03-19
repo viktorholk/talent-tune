@@ -204,7 +204,10 @@
             {@html message}
           {:else}
             <div class="flex flex-col text-right">
-              <h3 class="text-indigo-600 font-bold text-xl italic">{data.user.name}</h3>
+              <h3 class="text-indigo-600 font-bold text-xl italic">
+                {data.user.profile?.firstName}
+                {data.user.profile?.lastName}
+              </h3>
               <p class="text-sm">{message}</p>
             </div>
           {/if}

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Modal from '$lib/components/Modal.svelte';
   import profileIcon from '$lib/assets/default-profile-picture.jpg';
   import { goto } from '$app/navigation';
 
@@ -153,7 +154,26 @@
       });
     }
   }
+
+  let showModal = false;
+
+
+  const handleUserDelete = async () => {
+    const response = await fetch('/api/user/', {
+      method: 'DELETE',
+      body: JSON.stringify({ token: data.token })
+    });
+
+    if (response.ok) {
+      showModal = false;
+      goto('/login');
+    }
+  }
 </script>
+
+<Modal bind:showModal actionFunction={handleUserDelete}>
+  <h1>Are you sure you want to delete your user?</h1>
+</Modal>
 
 <main class="flex flex-col items-center py-6 sm:py-12">
   <div class="p-6 bg-white rounded shadow-md w-full max-w-md">
@@ -407,7 +427,7 @@
       {/if}
     {:else}
       <div class="flex flex-col gap-2">
-        <div class="flex justify-between items-center">
+        <div class="flex items-center">
           <label class="font-bold w-24 text-xs">Email</label>
           <input
             type="email"
@@ -417,20 +437,26 @@
           />
         </div>
 
-        <div class="flex justify-between items-center">
+        <div class="flex items-center">
           <label class="font-bold w-24 text-xs">Password</label>
-          <input
-            type="email"
-            class="bg-gray-100 flex-grow h-8 p-2 rounded"
-            placeholder="**********"
-            bind:value={editingPassword}
-          />
+
+          <div class="flex gap-1 flex-grow">
+            <input
+              type="email"
+              class="bg-gray-200 flex-grow h-8 p-2 rounded"
+              placeholder="**********"
+              bind:value={editingPassword}
+            />
+            <button
+              class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-2 rounded"
+              on:click={() => handleSave()}>Update</button
+            >
+          </div>
         </div>
 
-        <div class="flex justify-end">
-          <button
-            class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-full"
-            on:click={() => handleSave()}>Save</button
+        <div class="flex justify-center mt-5">
+          <button class="text-red-400 font-bold px-2 rounded" on:click={() => (showModal = true)}
+            >Delete</button
           >
         </div>
       </div>

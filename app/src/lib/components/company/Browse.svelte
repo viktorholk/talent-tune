@@ -79,18 +79,18 @@
         <div
           class="shadow-lg rounded-xl min-h-32 w-96 border border-gray-200 hover:scale-105 cursor-pointer transition ease-in-out"
         >
-          <div class="flex h-full">
-            <div class="flex items-center">
+          <div class="flex flex-col h-full">
+            <div class="flex items-center px-5 pt-2">
               <Avatar srcImage={profile.picture} />
+
+              <p class="text-2xl h-6 font-semibold text-center flex-grow">
+                {profile.firstName || ''}
+                {profile.lastName || ''}
+              </p>
             </div>
 
-            <div class="flex flex-col flex-grow p-2">
+            <div class="flex flex-col flex-grow px-5">
               <div class="flex-grow">
-                <p class="text-xl h-6 font-semibold">
-                  {profile.firstName || ''}
-                  {profile.lastName || ''}
-                </p>
-
                 <p class="text-xs italic p-1">{profile.bio || ''}</p>
               </div>
 
