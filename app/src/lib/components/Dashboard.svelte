@@ -201,7 +201,12 @@
 
       <div class="flex-grow">
         <label for="attachedDocuments" class="font-bold text-black">Attached Documents</label>
-        <MultiSelect id="attachedDocuments" bind:selected options={documents} key={(i) => i._id} />
+        <MultiSelect
+          id="attachedDocuments"
+          bind:selected
+          options={documents || []}
+          key={(i) => i._id}
+        />
       </div>
 
       <div class="flex justify-center mt-2">
@@ -346,140 +351,3 @@
     </form>
   </div>
 </div>
-
-<!--
-
-    -->
-
-<!--
-<div class="flex flex-col lg:flex-row">
-  <form method="POST" enctype="multipart/form-data" on:submit|preventDefault={handleProcess}>
-    <div class="flex lg:flex-col gap-4">
-      <div class="w-1/2 lg:w-full">
-        <label for="resume" class="font-bold text-black">Resume</label>
-        <textarea
-          disabled={streaming}
-          id="resume"
-          name="resume"
-          class="w-full min-h-64 p-2 border border-gray-300 rounded-md"
-          placeholder="Paste your resume here"
-          bind:value={$resumeInputStore}
-        ></textarea>
-      </div>
-
-      
-      <div class="w-1/2 lg:w-full hidden lg:block">
-        <label for="attachedDocuments" class="font-bold text-black">Attached Documents</label>
-        <MultiSelect id="attachedDocuments" bind:selected options={documents} key={(i) => i._id}  liSelectedClass="overflow-scroll" liOptionClass="overflow-scroll" ulOptionsClass="overflow-scroll" ulSelectedClass="overflow-scroll"/>
-      </div>
-
-      <div class="w-1/2 lg:w-full">
-        <label for="jobDescription" class="font-bold text-black">Job Description</label>
-        <textarea
-          disabled={streaming}
-          id="jobDescription"
-          name="jobDescription"
-          class="w-full min-h-64 p-2 mb-4 border border-gray-300 rounded-md"
-          placeholder="Paste the job description here"
-          bind:value={$jobDescriptionInputStore}
-        ></textarea>
-      </div>
-    </div>
-
-    <div class="flex justify-center items-center  gap-4">
-      <div class=" lg:hidden mb-2">
-        <label for="attachedDocuments" class="font-bold text-black">Attached Documents</label>
-        <MultiSelect  --sms-max-width="1" id="attachedDocuments" bind:selected options={documents} key={(i) => i._id}/>
-      </div>
-
-      <button
-        disabled={streaming}
-        type="submit"
-        class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-1 px-3 rounded-full"
-      >
-        Process
-      </button>
-    </div>
-  </form>
-  <div class="flex-1 px-5 gap-4 flex-grow">
-    <p class="font-bold text-black">Assistant Chat</p>
-    <div
-      id="assistantChat"
-      class="flex flex-col gap-4 bg-gray-100 min-h-64 max-h-96 mb-4 overflow-y-scroll p-2 rounded-xl"
-    >
-      {#if messages.length == 0}
-        <h1 class="text-center text-2xl font-bold text-indigo-600">Welcome to Talent Tune</h1>
-        <p class="text-center">Please paste your resume and the job description to get started.</p>
-      {/if}
-      {#each messages as { role, message }}
-        <div>
-          {#if role == 'assistant'}
-            <h3 class="text-indigo-600 font-bold text-2xl">Assistant</h3>
-            {@html message}
-          {:else}
-            <div class="flex flex-col text-right">
-              <h3 class="text-indigo-600 font-bold text-xl italic">
-                {data.user.profile?.firstName}
-                {data.user.profile?.lastName}
-              </h3>
-              <p class="text-sm">{message}</p>
-            </div>
-          {/if}
-        </div>
-      {/each}
-
-      {#if dispatching}
-        <div class="flex items-center justify-center flex-1">
-          <svg
-            version="1.1"
-            id="L9"
-            xmlns="http://www.w3.org/2000/svg"
-            xmlns:xlink="http://www.w3.org/1999/xlink"
-            x="0px"
-            y="0px"
-            class="w-32 h-32"
-            viewBox="0 0 100 100"
-            enable-background="new 0 0 0 0"
-            xml:space="preserve"
-          >
-            <path
-              fill="rgb(67 56 202)"
-              d="M73,50c0-12.7-10.3-23-23-23S27,37.3,27,50 M30.9,50c0-10.5,8.5-19.1,19.1-19.1S69.1,39.5,69.1,50"
-            >
-              <animateTransform
-                attributeName="transform"
-                attributeType="XML"
-                type="rotate"
-                dur="1s"
-                from="0 50 50"
-                to="360 50 50"
-                repeatCount="indefinite"
-              />
-            </path>
-          </svg>
-        </div>
-      {/if}
-    </div>
-
-    <form method="POST" enctype="multipart/form-data" on:submit|preventDefault={handleChat}>
-      <label for="message" class="font-bold text-black">Message</label>
-      <div class="flex">
-        <textarea
-          disabled={!id || streaming}
-          name="message"
-          class="w-full h-12 min-h-12 max-h-32 p-2 border border-gray-300 rounded-md"
-          placeholder=""
-        ></textarea>
-        <div class="flex justify-end">
-          <button
-            disabled={!id || streaming}
-            class={`mx-2 px-5 h-12 font-bold rounded ${!id || streaming ? 'bg-gray-100 text-gray-300' : 'text-white bg-indigo-600 hover:bg-indigo-700'}`}
-          >
-            Reply
-          </button>
-        </div>
-      </div>
-    </form>
-  </div>
-</div>
--->
