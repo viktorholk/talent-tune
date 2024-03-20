@@ -13,13 +13,14 @@ export async function createToken(req: Request, res: Response) {
   const existingUser = await UserModel.findOne({
     email: params.email,
   }).populate([
-    "profile",
     {
-      path: "company",
+      path: "profile",
       populate: {
-        path: "jobListings",
+        path: "documents",
+        select: "title _id",
       },
     },
+    "company",
   ]);
 
   if (!existingUser) return res.sendResponse(403, "Invalid email or password");

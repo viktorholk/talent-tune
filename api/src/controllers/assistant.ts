@@ -4,9 +4,11 @@ import { v4 as uuidv4 } from "uuid";
 
 import RedisStore from "@/utils/redis-store";
 import Logger from "@/utils/logger";
-import { Stream } from "stream";
 
 import { createStreamingCompletion } from "@/utils/assistant";
+
+import DocumentModel from "@/models/document";
+import { textFromPDF } from "@/utils/pdf";
 
 const prompt = `You are a career advisor assistant for the Talent Tune app.
 Evaluate the resume against the provided job description.
@@ -15,13 +17,7 @@ Suggest specific changes to the resume to better align with the job requirements
 Analyze how well the resume showcases relevant skills, experiences, and achievements that match the job responsibilities and requirements.
 Offer tips and tricks for improvement. Ensure that the feedback is constructive and actionable.
 You will only answer career related questions.
-You will converse in the Danish language.
-You will only output in valid HTML format. You dont need <html> and <body> elements.
-You will use TailwindCSS classes for styling. You dont need to import TailwindCSS.
-That means for headers e.g you will use font-bold text-xl.
-Text formatting: You can use HTML tags such as <h1>, <h2>, <p>, and <strong> to format and style text.
-Tables and lists: You can use the <table> and <ul>/<ol> tags to create tables and lists respectively.
-`;
+You will converse in the Danish language.`;
 
 async function sendStreamToResponseAndReturnMessage(
   stream: any,
@@ -56,17 +52,27 @@ export async function handleChat(req: Request, res: Response) {
   if (messages.length === 0)
     return res.sendResponse(400, { message: "Invalid instance id" });
 
-  const stream = await createStreamingCompletion(id, messages, params.message);
+  createStreamingCompletion(id, messages, params.message)
+    .then(async (stream) => {
+      // This will start writing the response to the client
+      const response = await sendStreamToResponseAndReturnMessage(stream, res);
 
-  // This will start writing the response to the client
-  const response = await sendStreamToResponseAndReturnMessage(stream, res);
+      // Push the response to redis
+      messages.push({ role: "system", content: response });
+      await RedisStore.client.set(
+        `conversation:${id}`,
+        JSON.stringify(messages)
+      );
 
-  // Push the response to redis
-  messages.push({ role: "system", content: response });
-  await RedisStore.client.set(`conversation:${id}`, JSON.stringify(messages));
+      res.end();
+    })
+    .catch((error) => {
+      Logger.error("Error handling chat", error);
+
+      res.end();
+    });
 
   // End the response
-  res.end();
 }
 
 export async function initializeChat(req: Request, res: Response) {
@@ -74,16 +80,37 @@ export async function initializeChat(req: Request, res: Response) {
 
   const id = uuidv4();
 
-  if (!params.resume) return res.sendResponse(400);
+  if (!params.resume && params.documents?.length == 0)
+    return res.sendResponse(400);
   if (!params.jobDescription) return res.sendResponse(400);
 
   const messages: OpenAI.Chat.Completions.ChatCompletionMessageParam[] = [
     { role: "system", content: prompt },
+    { role: "system", content: `JOB DESCRIPTION: ${params.jobDescription}` },
     {
       role: "user",
-      content: `JOB DESCRIPTION: ${params.jobDescription}\n\nRESUME: ${params.resume}`,
+      content: params.resume,
     },
   ];
+
+  if (params.documents?.length > 0) {
+    const documents = await DocumentModel.find({
+      _id: { $in: params.documents },
+    });
+
+    for (const document of documents) {
+      textFromPDF(document.encoded)
+        .then((content) => {
+          messages.push({
+            role: "user",
+            content: content,
+          });
+        })
+        .catch((error) => {
+          Logger.error("Error extracting text from PDF", error);
+        });
+    }
+  }
 
   if (params.instructions)
     messages.push({ role: "system", content: params.instructions });
@@ -92,14 +119,23 @@ export async function initializeChat(req: Request, res: Response) {
   res.set("Access-Control-Expose-Headers", "x-assistant-id");
   res.set("x-assistant-id", id);
 
-  const stream = await createStreamingCompletion(id, messages);
+  createStreamingCompletion(id, messages)
+    .then(async (stream) => {
+      // This will start writing the response to the client
+      const response = await sendStreamToResponseAndReturnMessage(stream, res);
 
-  // This will start writing the response to the client
-  const response = await sendStreamToResponseAndReturnMessage(stream, res);
+      // Push the response to redis
+      messages.push({ role: "system", content: response });
+      await RedisStore.client.set(
+        `conversation:${id}`,
+        JSON.stringify(messages)
+      );
 
-  // Push the response to redis
-  messages.push({ role: "system", content: response });
-  await RedisStore.client.set(`conversation:${id}`, JSON.stringify(messages));
+      res.end();
+    })
+    .catch((error) => {
+      Logger.error("Error initializing chat", error);
 
-  res.end();
+      res.end();
+    });
 }

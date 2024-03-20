@@ -10,7 +10,7 @@
 
 <head> </head>
 <body>
-  <div class="container max-w-screen-lg mx-auto">
+  <div class="container max-w-screen-lg mx-auto flex flex-col h-screen">
     {#if $page.url.pathname != '/login' && $page.url.pathname != '/register'}
       <nav class="flex justify-between items-center p-4">
         <div class="flex items-center text-white">
@@ -38,7 +38,7 @@
         >
       </nav>
     {/if}
-    <main>
+    <main class="flex-grow">
       <slot />
     </main>
   </div></body
