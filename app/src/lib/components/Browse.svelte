@@ -69,8 +69,10 @@
 
 <h1 class="text-center text-2xl text-indigo-700 font-bold">Browse Job Listings</h1>
 
-<div class="flex flex-col md:flex-row gap-2 p-10 min-h-96" >
-  <div class="flex md:flex-col gap-2 bg-gray-50 rounded shadow-inner p-5 overflow-auto w-full md:w-1/3">
+<div class="flex flex-col md:flex-row gap-2 p-10 min-h-96">
+  <div
+    class="flex md:flex-col gap-2 bg-gray-50 rounded shadow-inner p-5 overflow-auto w-full md:w-1/3"
+  >
     <div class="flex items-center rounded border border-gray-300 p-1 hidden md:flex min-w-64">
       <svg
         class="w-3 h-3 text-gray-400 ml-1"
@@ -129,9 +131,7 @@
           {#each $jobListingsStore as jobListing (jobListing._id)}
             <div
               on:click={selectJobListing(jobListing._id)}
-              class="min-w-64 rounded {jobListing.active
-                ? ' bg-indigo-100'
-                : ''} flex-grow hover:scale-105 transition ease-in-out"
+              class="min-w-64 rounded flex-grow hover:scale-105 transition ease-in-out"
             >
               <Card
                 props={{
@@ -164,7 +164,11 @@
     </div>
   </div>
 
-  <div class="rounded shadow-lg flex-grow min-h-96">
+  <div class="rounded shadow-lg flex-grow min-h-96 p-2">
+    <h2 class="font-bold text-2xl">{$selectedJobListingStore?.title}</h2>
+
+    <div class="border border-gray-200"></div>
+
     <article class="prose">
       {@html marked.parse($selectedJobListingStore?.description || '#### Select a job listing')}
     </article>
