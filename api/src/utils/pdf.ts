@@ -15,7 +15,6 @@ export async function textFromPDF(base64String: string) {
   for (let pageNum = 1; pageNum <= numPages; pageNum++) {
     const page = await pdfDocument.getPage(pageNum);
     const textContent = await page.getTextContent();
-    console.log(textContent);
 
     textContent.items.forEach((item) => {
       item = item as TextItem;
@@ -25,4 +24,3 @@ export async function textFromPDF(base64String: string) {
 
   return fullText.trim();
 }
-

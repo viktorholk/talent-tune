@@ -80,19 +80,18 @@ export async function initializeChat(req: Request, res: Response) {
 
   const id = uuidv4();
 
-  if (!params.resume) return res.sendResponse(400);
+  if (!params.resume && params.documents?.length == 0)
+    return res.sendResponse(400);
   if (!params.jobDescription) return res.sendResponse(400);
 
   const messages: OpenAI.Chat.Completions.ChatCompletionMessageParam[] = [
     { role: "system", content: prompt },
+    { role: "system", content: `JOB DESCRIPTION: ${params.jobDescription}` },
     {
       role: "user",
-      content: `JOB DESCRIPTION: ${params.jobDescription}\n\nRESUME: ${params.resume}`,
+      content: params.resume,
     },
   ];
-
-  if (params.instructions)
-    messages.push({ role: "system", content: params.instructions });
 
   if (params.documents?.length > 0) {
     const documents = await DocumentModel.find({
@@ -100,17 +99,21 @@ export async function initializeChat(req: Request, res: Response) {
     });
 
     for (const document of documents) {
-      textFromPDF(document.encoded).then((content) => {
-        messages.push({
-          role: "system",
-          content: content,
+      textFromPDF(document.encoded)
+        .then((content) => {
+          messages.push({
+            role: "user",
+            content: content,
+          });
+        })
+        .catch((error) => {
+          Logger.error("Error extracting text from PDF", error);
         });
-      });
-      //.catch((error) => {
-      //  Logger.error("Error extracting text from PDF", error);
-      //});
     }
   }
+
+  if (params.instructions)
+    messages.push({ role: "system", content: params.instructions });
 
   // First send the id to the client
   res.set("Access-Control-Expose-Headers", "x-assistant-id");
