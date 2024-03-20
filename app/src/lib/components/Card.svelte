@@ -12,7 +12,7 @@
   });
 </script>
 
-<div class="min-h-24 max-h-32 rounded shadow-lg p-1 cursor-pointer">
+<div class="min-h-24 rounded shadow-lg p-1 cursor-pointer">
   <div class="flex items-center w-full">
     <div class="flex flex-grow flex-col truncate">
       <h2 class="text-md">{title || ''}</h2>
