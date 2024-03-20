@@ -10,7 +10,8 @@ export async function POST({ request }) {
     {
       resume: body.resume,
       jobDescription: body.jobDescription,
-      instructions: body.instructions
+      instructions: body.instructions,
+      documents: body.documents,
     },
     body.token
   );
