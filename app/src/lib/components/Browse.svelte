@@ -165,7 +165,7 @@
   </div>
 
   <div class="rounded shadow-lg flex-grow min-h-96 p-2">
-    <h2 class="font-bold text-2xl">{$selectedJobListingStore?.title}</h2>
+    <h2 class="text-2xl font-black text-indigo-600">{$selectedJobListingStore?.title}</h2>
 
     <div class="border border-gray-200"></div>
 
