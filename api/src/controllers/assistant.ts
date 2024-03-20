@@ -4,9 +4,11 @@ import { v4 as uuidv4 } from "uuid";
 
 import RedisStore from "@/utils/redis-store";
 import Logger from "@/utils/logger";
-import { Stream } from "stream";
 
 import { createStreamingCompletion } from "@/utils/assistant";
+
+import DocumentModel from "@/models/document";
+import { textFromPDF } from "@/utils/pdf";
 
 const prompt = `You are a career advisor assistant for the Talent Tune app.
 Evaluate the resume against the provided job description.
@@ -50,17 +52,27 @@ export async function handleChat(req: Request, res: Response) {
   if (messages.length === 0)
     return res.sendResponse(400, { message: "Invalid instance id" });
 
-  const stream = await createStreamingCompletion(id, messages, params.message);
+  createStreamingCompletion(id, messages, params.message)
+    .then(async (stream) => {
+      // This will start writing the response to the client
+      const response = await sendStreamToResponseAndReturnMessage(stream, res);
 
-  // This will start writing the response to the client
-  const response = await sendStreamToResponseAndReturnMessage(stream, res);
+      // Push the response to redis
+      messages.push({ role: "system", content: response });
+      await RedisStore.client.set(
+        `conversation:${id}`,
+        JSON.stringify(messages)
+      );
 
-  // Push the response to redis
-  messages.push({ role: "system", content: response });
-  await RedisStore.client.set(`conversation:${id}`, JSON.stringify(messages));
+      res.end();
+    })
+    .catch((error) => {
+      Logger.error("Error handling chat", error);
+
+      res.end();
+    });
 
   // End the response
-  res.end();
 }
 
 export async function initializeChat(req: Request, res: Response) {
@@ -82,18 +94,45 @@ export async function initializeChat(req: Request, res: Response) {
   if (params.instructions)
     messages.push({ role: "system", content: params.instructions });
 
+  if (params.documents?.length > 0) {
+    const documents = await DocumentModel.find({
+      _id: { $in: params.documents },
+    });
+
+    for (const document of documents) {
+      textFromPDF(document.encoded).then((content) => {
+        messages.push({
+          role: "system",
+          content: content,
+        });
+      });
+      //.catch((error) => {
+      //  Logger.error("Error extracting text from PDF", error);
+      //});
+    }
+  }
+
   // First send the id to the client
   res.set("Access-Control-Expose-Headers", "x-assistant-id");
   res.set("x-assistant-id", id);
 
-  const stream = await createStreamingCompletion(id, messages);
+  createStreamingCompletion(id, messages)
+    .then(async (stream) => {
+      // This will start writing the response to the client
+      const response = await sendStreamToResponseAndReturnMessage(stream, res);
 
-  // This will start writing the response to the client
-  const response = await sendStreamToResponseAndReturnMessage(stream, res);
+      // Push the response to redis
+      messages.push({ role: "system", content: response });
+      await RedisStore.client.set(
+        `conversation:${id}`,
+        JSON.stringify(messages)
+      );
 
-  // Push the response to redis
-  messages.push({ role: "system", content: response });
-  await RedisStore.client.set(`conversation:${id}`, JSON.stringify(messages));
+      res.end();
+    })
+    .catch((error) => {
+      Logger.error("Error initializing chat", error);
 
-  res.end();
+      res.end();
+    });
 }
